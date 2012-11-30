@@ -2367,6 +2367,12 @@ public interface WindowManager extends ViewManager {
         public static final int PRIVATE_FLAG_FORCE_SHOW_STATUS_BAR = 0x00001000;
 
         /**
+         * Window flag: Overrides default power key behavior
+         * @hide
+         */
+        public static final int PRIVATE_FLAG_PREVENT_POWER_KEY = 0x00002000;
+
+        /**
          * Flag that will make window ignore app visibility and instead depend purely on the decor
          * view visibility for determining window visibility. This is used by recents to keep
          * drawing after it launches an app.
