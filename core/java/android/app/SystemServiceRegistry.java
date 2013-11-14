@@ -163,6 +163,8 @@ import android.pocket.IPocketService;
 import android.pocket.PocketManager;
 import android.print.IPrintManager;
 import android.print.PrintManager;
+import android.service.gesture.EdgeGestureManager;
+import android.service.gesture.IEdgeGestureService;
 import android.service.oemlock.IOemLockService;
 import android.service.oemlock.OemLockManager;
 import android.service.persistentdata.IPersistentDataBlockService;
@@ -956,6 +958,15 @@ final class SystemServiceRegistry {
                         IBinder binder = ServiceManager.getService(Context.POCKET_SERVICE);
                         IPocketService service = IPocketService.Stub.asInterface(binder);
                         return new PocketManager(ctx.getOuterContext(), service);
+                    }});
+
+        registerService(Context.EDGE_GESTURE_SERVICE, EdgeGestureManager.class,
+                new CachedServiceFetcher<EdgeGestureManager>() {
+                    @Override
+                    public EdgeGestureManager createService(ContextImpl ctx) {
+                        IBinder binder = ServiceManager.getService(Context.EDGE_GESTURE_SERVICE);
+                        IEdgeGestureService service = IEdgeGestureService.Stub.asInterface(binder);
+                        return new EdgeGestureManager(service);
                     }});
 
         registerService(Context.TV_INPUT_SERVICE, TvInputManager.class,

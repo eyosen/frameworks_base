@@ -136,6 +136,7 @@ import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.provider.Settings;
+import android.service.gesture.EdgeGestureManager;
 import android.util.ArraySet;
 import android.util.Pair;
 import android.util.PrintWriterPrinter;
@@ -166,6 +167,8 @@ import com.android.internal.policy.ScreenDecorationsUtils;
 import com.android.internal.util.ScreenShapeHelper;
 import com.android.internal.util.ScreenshotHelper;
 import com.android.internal.util.function.TriConsumer;
+import com.android.internal.util.gesture.EdgeGesturePosition;
+import com.android.internal.util.gesture.EdgeServiceConstants;
 import com.android.internal.widget.PointerLocationView;
 import com.android.server.LocalServices;
 import com.android.server.UiThread;
@@ -615,6 +618,11 @@ public class DisplayPolicy {
 
     void systemReady() {
         mSystemGestures.systemReady();
+        mEdgeGestureManager = EdgeGestureManager.getInstance();
+
+        if (mEdgeGestureManager != null) {
+            mEdgeGestureManager.setEdgeGestureActivationListener(mEdgeGestureActivationListener);
+        }
         if (mService.mPointerLocationEnabled) {
             setPointerLocationEnabled(true);
         }
@@ -939,6 +947,69 @@ public class DisplayPolicy {
 
     public void setHideNotch(boolean hideNotch){
           mNotchHidden = hideNotch;
+    }
+
+    private EdgeGestureManager.EdgeGestureActivationListener mEdgeGestureActivationListener
+            = new EdgeGestureManager.EdgeGestureActivationListener() {
+
+        @Override
+        public void onEdgeGestureActivation(int touchX, int touchY,
+            EdgeGesturePosition position, int flags) {
+            WindowState target = null;
+
+            if (position == EdgeGesturePosition.TOP) {
+                target = mStatusBar;
+            } else if ((position == EdgeGesturePosition.BOTTOM) && (mNavigationBarPosition == NAV_BAR_BOTTOM)) {
+                target = mNavigationBar;
+            } else if ((position == EdgeGesturePosition.RIGHT) && (mNavigationBarPosition == NAV_BAR_RIGHT)) {
+                target = mNavigationBar;
+            } else if ((position == EdgeGesturePosition.LEFT) && (mNavigationBarPosition == NAV_BAR_LEFT)) {
+                target = mNavigationBar;
+            }
+
+            if (target != null) {
+                requestTransientBars(target);
+                dropEventsUntilLift();
+                mEdgeListenerActivated = true;
+            } else {
+                restoreListenerState();
+            }
+        }
+    };
+    private EdgeGestureManager mEdgeGestureManager = null;
+    private int mLastEdgePositions = 0;
+    private boolean mEdgeListenerActivated = false;
+    private boolean mUsingEdgeGestureServiceForGestures = false;
+
+    protected void updateEdgeGestureListenerState() {
+        int flags = 0;
+        if (mUsingEdgeGestureServiceForGestures) {
+            flags = EdgeServiceConstants.LONG_LIVING | EdgeServiceConstants.UNRESTRICTED;
+            if (mStatusBar != null && !mStatusBar.isVisibleLw()) {
+                flags |= EdgeGesturePosition.TOP.FLAG;
+            }
+            if (mNavigationBar != null && !mNavigationBar.isVisibleLw()
+                     && !isStatusBarKeyguard()) {
+                if (mNavigationBarPosition == NAV_BAR_BOTTOM) {
+                    flags |= EdgeGesturePosition.BOTTOM.FLAG;
+                } else if (mNavigationBarPosition == NAV_BAR_RIGHT){
+                    flags |= EdgeGesturePosition.RIGHT.FLAG;
+                } else if (mNavigationBarPosition == NAV_BAR_LEFT) {
+                    flags |= EdgeGesturePosition.LEFT.FLAG;
+                }
+            }
+        }
+        if (mEdgeListenerActivated) {
+            mEdgeGestureActivationListener.restoreListenerState();
+            mEdgeListenerActivated = false;
+        }
+        if (flags != mLastEdgePositions) {
+            if (mEdgeGestureManager != null ){
+                mEdgeGestureManager.updateEdgeGestureActivationListener(mEdgeGestureActivationListener,
+                    flags);
+                mLastEdgePositions = flags;
+            }
+        }
     }
 
     /**
@@ -1283,6 +1354,7 @@ public class DisplayPolicy {
     public int adjustSystemUiVisibilityLw(int visibility) {
         mStatusBarController.adjustSystemUiVisibilityLw(mLastSystemUiFlags, visibility);
         mNavigationBarController.adjustSystemUiVisibilityLw(mLastSystemUiFlags, visibility);
+        updateEdgeGestureListenerState();
 
         // Reset any bits in mForceClearingStatusBarVisibility that
         // are now clear.
@@ -2676,6 +2748,7 @@ public class DisplayPolicy {
         }
 
         updateWindowSleepToken();
+        updateEdgeGestureListenerState();
 
         mService.mPolicy.setAllowLockscreenWhenOn(getDisplayId(), mAllowLockscreenWhenOn);
         return changes;
@@ -2727,6 +2800,18 @@ public class DisplayPolicy {
         mSystemGestures.onConfigurationChanged();
     }
 
+    public void updateEdgeGestureState(boolean useEdgeService, boolean systemReady) {
+        if (useEdgeService ^ mUsingEdgeGestureServiceForGestures && systemReady) {
+            if (!mUsingEdgeGestureServiceForGestures && useEdgeService) {
+                mUsingEdgeGestureServiceForGestures = true;
+                mDisplayContent.unregisterPointerEventListener(mSystemGestures);
+            } else if (mUsingEdgeGestureServiceForGestures && !useEdgeService) {
+                mUsingEdgeGestureServiceForGestures = false;
+                mDisplayContent.registerPointerEventListener(mSystemGestures);
+            }
+            updateEdgeGestureListenerState();
+        }
+    }
     /**
      * Called when the configuration has changed, and it's safe to load new values from resources.
      */

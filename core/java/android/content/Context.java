@@ -4695,6 +4695,17 @@ public abstract class Context {
      */
     public static final String POCKET_SERVICE = "pocket";
 
+
+     /**
+     * Use with {@link #getSystemService} to retrieve a
+     * {@link android.service.gesture.EdgeGestureManager} for accessing and listening to edge gesture state.
+     *
+     * @hide
+     * @see #getSystemService
+     * @see android.service.gesture.EdgeGestureManager
+     */
+    public static final String EDGE_GESTURE_SERVICE = "edgegestureservice";
+
     /**
      * Determine whether the given permission is allowed for a particular
      * process and user ID running in the system.

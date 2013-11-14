@@ -6117,6 +6117,15 @@ public final class Settings {
         private static final Validator PULSE_AMBIENT_LIGHT_DURATION_VALIDATOR =
                 ANY_INTEGER_VALIDATOR;
 
+        /**
+         * Use EdgeGesture Service for system gestures in PhoneWindowManager
+         * @hide
+         */
+        public static final String USE_EDGE_SERVICE_FOR_GESTURES = "edge_service_for_gestures";
+        /** @hide */
+        private static final Validator USE_EDGE_SERVICE_FOR_GESTURES_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -6345,6 +6354,7 @@ public final class Settings {
             PULSE_AMBIENT_LIGHT_COLOR,
             GESTURE_PILL_TOGGLE,
             PULSE_AMBIENT_LIGHT_DURATION,
+            USE_EDGE_SERVICE_FOR_GESTURES,
             // AICP Settings end
         };
 
@@ -6627,6 +6637,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_COLOR);
             PRIVATE_SETTINGS.add(GESTURE_PILL_TOGGLE);
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_DURATION);
+            PRIVATE_SETTINGS.add(USE_EDGE_SERVICE_FOR_GESTURES);
             // AICP Settings end
         }
 
@@ -6899,6 +6910,7 @@ public final class Settings {
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_COLOR, PULSE_AMBIENT_LIGHT_COLOR_VALIDATOR);
             VALIDATORS.put(GESTURE_PILL_TOGGLE, GESTURE_PILL_TOGGLE_VALIDATOR);
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_DURATION, PULSE_AMBIENT_LIGHT_DURATION_VALIDATOR);
+            VALIDATORS.put(USE_EDGE_SERVICE_FOR_GESTURES,USE_EDGE_SERVICE_FOR_GESTURES_VALIDATOR);
             // AICP Settings end
         }
 
