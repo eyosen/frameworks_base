@@ -7261,6 +7261,15 @@ public final class Settings {
         public static final String PULSE_SMOOTHING_ENABLED = "pulse_smoothing_enabled";
 
         /**
+         * Show the pending notification counts as overlays on the status bar
+         * @hide
+         */
+        public static final String STATUS_BAR_NOTIF_COUNT = "status_bar_notif_count";
+
+        /** @hide */
+        public static final Validator STATUS_BAR_NOTIF_COUNT_VALIDATOR = BOOLEAN_VALIDATOR;
+
+        /**
          * A2DP codec priority
          * @hide
          */
@@ -7552,6 +7561,7 @@ public final class Settings {
             GESTURE_NAVBAR_SHOW,
             QS_DATAUSAGE,
             AUTO_BRIGHTNESS_MIN_VALUE,
+            STATUS_BAR_NOTIF_COUNT,
             // AICP Settings end
         };
 
@@ -7910,6 +7920,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QS_DATAUSAGE);
             PRIVATE_SETTINGS.add(SHOW_VOWIFI_ICON);
             PRIVATE_SETTINGS.add(AUTO_BRIGHTNESS_MIN_VALUE);
+            PRIVATE_SETTINGS.add(STATUS_BAR_NOTIF_COUNT);
             // AICP Settings end
         }
 
@@ -8257,6 +8268,7 @@ public final class Settings {
             VALIDATORS.put(QS_DATAUSAGE, QS_DATAUSAGE_VALIDATOR);
             VALIDATORS.put(SHOW_VOWIFI_ICON, SHOW_VOWIFI_ICON_VALIDATOR);
             VALIDATORS.put(AUTO_BRIGHTNESS_MIN_VALUE, AUTO_BRIGHTNESS_MIN_VALUE_VALIDATOR);
+            VALIDATORS.put(STATUS_BAR_NOTIF_COUNT, STATUS_BAR_NOTIF_COUNT_VALIDATOR);
             // AICP Settings end
         }
 
