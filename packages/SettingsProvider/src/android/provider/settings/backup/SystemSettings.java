@@ -313,5 +313,6 @@ public class SystemSettings {
         Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT,
         Settings.System.HEADS_UP_NOTIFICATIONS_THRESHOLD,
         Settings.System.SHOW_APP_VOLUME,
+        Settings.System.VOLUME_ANSWER_CALL,
     };
 }
