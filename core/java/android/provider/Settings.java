@@ -7124,6 +7124,12 @@ public final class Settings {
          */
         public static final String NAVIGATION_BAR_MENU_ARROW_KEYS = "navigation_bar_menu_arrow_keys";
 
+        /**
+         * Whether to answer the call with the volume keys, the value is boolean.
+         * 0 = 0ff, 1 = on
+         */
+        public static final String VOLUME_ANSWER_CALL = "volume_answer_call";
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -7389,6 +7395,7 @@ public final class Settings {
             AICP_SETTINGS_VALIDATORS.put(CLIPBOARD_TOAST_INFO, ANY_INTEGER_VALIDATOR);
             AICP_SETTINGS_VALIDATORS.put(LOCKSCREEN_BLUR, ANY_INTEGER_VALIDATOR);
             AICP_SETTINGS_VALIDATORS.put(NAVIGATION_BAR_MENU_ARROW_KEYS, BOOLEAN_VALIDATOR);
+            AICP_SETTINGS_VALIDATORS.put(VOLUME_ANSWER_CALL, BOOLEAN_VALIDATOR);
         }
 
         /**
