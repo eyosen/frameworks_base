@@ -229,5 +229,8 @@ public class SecureSettings {
         Settings.Secure.PULSE_SOLID_UNITS_ROUNDED,
         Settings.Secure.ENABLE_LOCATION_PRIVACY_INDICATOR,
         Settings.Secure.ENABLE_CAMERA_PRIVACY_INDICATOR,
+        Settings.Secure.LOCK_PATTERN_SIZE,
+        Settings.Secure.LOCK_DOTS_VISIBLE,
+        Settings.Secure.LOCK_SHOW_ERROR_PATH,
     };
 }
