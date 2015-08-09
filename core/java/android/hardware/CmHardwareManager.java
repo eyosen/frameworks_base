@@ -95,6 +95,16 @@ public final class CmHardwareManager {
      */
     public static final int FEATURE_TOUCH_HOVERING = 0x800;
 
+    /**
+     * Sweep to Wake
+     */
+    public static final int FEATURE_SWEEP_TO_WAKE = 0x1000;
+
+    /**
+     * Sweep to Sleep
+     */
+    public static final int FEATURE_SWEEP_TO_SLEEP = 0x2000;
+
     private static final List<Integer> BOOLEAN_FEATURES = Arrays.asList(
         FEATURE_ADAPTIVE_BACKLIGHT,
         FEATURE_COLOR_ENHANCEMENT,
@@ -102,7 +112,9 @@ public final class CmHardwareManager {
         FEATURE_KEY_DISABLE,
         FEATURE_SUNLIGHT_ENHANCEMENT,
         FEATURE_TAP_TO_WAKE,
-        FEATURE_TOUCH_HOVERING
+        FEATURE_TOUCH_HOVERING,
+        FEATURE_SWEEP_TO_WAKE,
+        FEATURE_SWEEP_TO_SLEEP
     );
 
     /**
