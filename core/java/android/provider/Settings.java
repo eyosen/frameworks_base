@@ -6611,6 +6611,12 @@ public final class Settings {
          */
         public static final String OMNI_LOCKSCREEN_MEDIA_BLUR = "lockscreen_media_blur";
 
+        /**
+        * Whether to show media art on lockscreen
+        * @hide
+        */
+        public static final String LOCKSCREEN_MEDIA_METADATA = "lockscreen_media_metadata";
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -6948,6 +6954,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_BATTERY_INFO_TEMP_UNIT);
             PRIVATE_SETTINGS.add(OMNI_USE_OLD_MOBILETYPE);
             PRIVATE_SETTINGS.add(OMNI_LOCKSCREEN_MEDIA_BLUR);
+            PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_METADATA);
         }
 
         /**

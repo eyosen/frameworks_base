@@ -4821,6 +4821,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_DATAUSAGE),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_MEDIA_METADATA),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -5284,6 +5287,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         updateNavigationBar(false);
         setPulseOnNewTracks();
         updateHeadsUpBlackList();
+        setLockscreenMediaArt();
     }
 
     private void adjustBrightness(int x) {
@@ -5431,5 +5435,11 @@ public class StatusBar extends SystemUI implements DemoMode,
         if (mQuickStatusBarHeader != null) {
             mQuickStatusBarHeader.updateDataUsageImage();
         }
+    }
+
+    private void setLockscreenMediaArt() {
+        boolean lockscreenMediaMetadata = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.LOCKSCREEN_MEDIA_METADATA, 0, UserHandle.USER_CURRENT) == 1;
+        mMediaManager.setLockscreenMediaMetadata(lockscreenMediaMetadata);
     }
 }

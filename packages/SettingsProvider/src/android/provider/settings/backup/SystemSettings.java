@@ -302,5 +302,6 @@ public class SystemSettings {
         Settings.System.LOCKSCREEN_BATTERY_INFO_TEMP_UNIT,
         Settings.System.OMNI_USE_OLD_MOBILETYPE,
         Settings.System.OMNI_LOCKSCREEN_MEDIA_BLUR,
+        Settings.System.LOCKSCREEN_MEDIA_METADATA,
     };
 }
