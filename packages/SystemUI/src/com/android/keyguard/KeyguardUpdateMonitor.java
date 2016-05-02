@@ -336,6 +336,8 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
     private final Executor mBackgroundExecutor;
     private int mLockScreenMode;
 
+    private final boolean mFingerprintWakeAndUnlock;
+
     /**
      * Short delay before restarting fingerprint authentication after a successful try. This should
      * be slightly longer than the time between onFingerprintAuthenticated and
@@ -1802,6 +1804,8 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
         mTelephonyListenerManager = telephonyListenerManager;
         mDeviceProvisioned = isDeviceProvisionedInSettingsDb();
         mStrongAuthTracker = new StrongAuthTracker(context, this::notifyStrongAuthStateChanged);
+        mFingerprintWakeAndUnlock = mContext.getResources().getBoolean(
+                com.android.systemui.R.bool.config_fingerprintWakeAndUnlock);
         mBackgroundExecutor = backgroundExecutor;
         mBroadcastDispatcher = broadcastDispatcher;
         mRingerModeTracker = ringerModeTracker;
@@ -2296,8 +2300,13 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
                     && userDoesNotHaveTrust
                     && !mFingerprintLockedOut);
 
-        final boolean shouldListen = shouldListenKeyguardState && shouldListenUserState
+        boolean shouldListen = shouldListenKeyguardState && shouldListenUserState
                 && shouldListenBouncerState && shouldListenUdfpsState && !mIsDeviceInPocket;
+        if (!mFingerprintWakeAndUnlock) {
+            shouldListen = (mKeyguardIsVisible || mBouncer || shouldListenForFingerprintAssistant ||
+                (mKeyguardOccluded && mIsDreaming)) && mDeviceInteractive && !mGoingToSleep
+                && shouldListenUserState && shouldListenBouncerState && !mIsDeviceInPocket;
+        }
 
         if (DEBUG_FINGERPRINT || DEBUG_SPEW) {
             maybeLogListenerModelData(
