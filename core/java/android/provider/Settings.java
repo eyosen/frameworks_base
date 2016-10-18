@@ -12225,6 +12225,14 @@ public final class Settings {
          */
         public static final String KEYGUARD_TRANSITION_ANIMATIONS = "sysui_keyguard_transition_animations";
 
+        /**
+         * Whether applications can fake a signature.
+         * 1 = permit apps to fake signature
+         * 0 = disable this feature
+         * @hide
+         */
+        public static final String ALLOW_SIGNATURE_FAKE = "allow_signature_fake";
+
         /*****************************
          * AICP Secure Settings end
          *****************************/
