@@ -301,5 +301,6 @@ public class SystemSettings {
         Settings.System.COMBINED_STATUS_BAR_SIGNAL_ICONS,
         Settings.System.LOCKSCREEN_BATTERY_INFO_TEMP_UNIT,
         Settings.System.OMNI_USE_OLD_MOBILETYPE,
+        Settings.System.OMNI_LOCKSCREEN_MEDIA_BLUR,
     };
 }

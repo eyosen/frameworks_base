@@ -6605,6 +6605,12 @@ public final class Settings {
          */
         public static final String OMNI_USE_OLD_MOBILETYPE = "use_old_mobiletype";
 
+        /**
+         * media artwork wallpaper blur level on lockscreen
+         * @hide
+         */
+        public static final String OMNI_LOCKSCREEN_MEDIA_BLUR = "lockscreen_media_blur";
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -6941,6 +6947,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(COMBINED_STATUS_BAR_SIGNAL_ICONS);
             PRIVATE_SETTINGS.add(LOCKSCREEN_BATTERY_INFO_TEMP_UNIT);
             PRIVATE_SETTINGS.add(OMNI_USE_OLD_MOBILETYPE);
+            PRIVATE_SETTINGS.add(OMNI_LOCKSCREEN_MEDIA_BLUR);
         }
 
         /**
