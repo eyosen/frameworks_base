@@ -44,6 +44,7 @@ class FooterActionsView(context: Context?, attrs: AttributeSet?) : LinearLayout(
     private lateinit var multiUserAvatar: ImageView
     private lateinit var tunerIcon: View
     private lateinit var editTilesButton: View
+    private lateinit var runningServicesButton: View
 
     private var settingsCogAnimator: TouchAnimator? = null
 
@@ -55,6 +56,7 @@ class FooterActionsView(context: Context?, attrs: AttributeSet?) : LinearLayout(
         editTilesButton = requireViewById(android.R.id.edit)
         settingsButton = findViewById(R.id.settings_button)
         settingsContainer = findViewById(R.id.settings_button_container)
+        runningServicesButton = findViewById(R.id.running_services_button);
         multiUserSwitch = findViewById(R.id.multi_user_switch)
         multiUserAvatar = multiUserSwitch.findViewById(R.id.multi_user_avatar)
         tunerIcon = requireViewById(R.id.tuner_icon)
@@ -63,6 +65,9 @@ class FooterActionsView(context: Context?, attrs: AttributeSet?) : LinearLayout(
         // settings), so disable it for this view
         if (settingsButton.background is RippleDrawable) {
             (settingsButton.background as RippleDrawable).setForceSoftware(true)
+        }
+        if (runningServicesButton.background is RippleDrawable) {
+            (runningServicesButton.background as RippleDrawable).setForceSoftware(true)
         }
         updateResources()
         importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
@@ -132,6 +137,7 @@ class FooterActionsView(context: Context?, attrs: AttributeSet?) : LinearLayout(
         multiUserSwitch.isClickable = multiUserSwitch.visibility == VISIBLE
         editTilesButton.isClickable = editTilesButton.visibility == VISIBLE
         settingsButton.isClickable = settingsButton.visibility == VISIBLE
+        runningServicesButton.isClickable = runningServicesButton.visibility == VISIBLE
     }
 
     private fun updateVisibilities(
@@ -143,6 +149,7 @@ class FooterActionsView(context: Context?, attrs: AttributeSet?) : LinearLayout(
         multiUserSwitch.visibility = if (multiUserEnabled) VISIBLE else GONE
         val isDemo = UserManager.isDeviceInDemoMode(context)
         settingsButton.visibility = if (isDemo) INVISIBLE else VISIBLE
+        runningServicesButton.visibility = if (isDemo) INVISIBLE else VISIBLE
     }
 
     fun onUserInfoChanged(picture: Drawable?, isGuestUser: Boolean) {

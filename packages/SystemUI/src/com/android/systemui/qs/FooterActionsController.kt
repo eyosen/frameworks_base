@@ -77,6 +77,7 @@ class FooterActionsController @Inject constructor(
     private val settingsButtonContainer: View? = view.findViewById(R.id.settings_button_container)
     private val editButton: View = view.findViewById(android.R.id.edit)
     private val powerMenuLite: View = view.findViewById(R.id.pm_lite)
+    private val runningServicesButton: View = view.findViewById(R.id.running_services_button)
 
     private val onUserInfoChangedListener = OnUserInfoChangedListener { _, picture, _ ->
         val isGuestUser: Boolean = userManager.isGuestUser(KeyguardUpdateMonitor.getCurrentUser())
@@ -117,6 +118,16 @@ class FooterActionsController @Inject constructor(
         } else if (v === powerMenuLite) {
             uiEventLogger.log(GlobalActionsDialogLite.GlobalActionsEvent.GA_OPEN_QS)
             globalActionsDialog.showOrHideDialog(false, true, v)
+        } else if (v == runningServicesButton) {
+            if (!deviceProvisionedController.isCurrentUserSetup) {
+                // If user isn't setup just unlock the device and dump them back at SUW.
+                activityStarter.postQSRunnableDismissingKeyguard {}
+                return@OnClickListener
+            }
+            metricsLogger.action(
+                    if (expanded) MetricsProto.MetricsEvent.ACTION_QS_EXPANDED_SETTINGS_LAUNCH
+                    else MetricsProto.MetricsEvent.ACTION_QS_COLLAPSED_SETTINGS_LAUNCH)
+            startRunningServicesActivity();
         }
     }
 
@@ -140,6 +151,19 @@ class FooterActionsController @Inject constructor(
         updateView()
     }
 
+    private fun startRunningServicesActivity() {
+        val animationController = settingsButtonContainer?.let {
+            ActivityLaunchAnimator.Controller.fromView(
+                    it,
+                    InteractionJankMonitor.CUJ_SHADE_APP_LAUNCH_FROM_SETTINGS_BUTTON)
+            }
+        val intent: Intent?;
+        intent.setClassName("com.android.settings",
+                "com.android.settings.Settings$DevRunningServicesActivity");
+        activityStarter.startActivity(intent,
+                true /* dismissShade */, animationController)
+    }
+
     private fun startSettingsActivity() {
         val animationController = settingsButtonContainer?.let {
             ActivityLaunchAnimator.Controller.fromView(
@@ -159,6 +183,7 @@ class FooterActionsController @Inject constructor(
             powerMenuLite.visibility = View.GONE
         }
         settingsButton.setOnClickListener(onClickListener)
+        runningServicesButton.setOnClickListener(onClickListener)
         editButton.setOnClickListener(View.OnClickListener { view: View? ->
             if (falsingManager.isFalseTap(FalsingManager.LOW_PENALTY)) {
                 return@OnClickListener
