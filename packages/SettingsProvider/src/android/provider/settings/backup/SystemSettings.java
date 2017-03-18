@@ -315,5 +315,6 @@ public class SystemSettings {
         Settings.System.SHOW_APP_VOLUME,
         Settings.System.VOLUME_ANSWER_CALL,
         Settings.System.TOAST_ICON,
+        Settings.System.BLUETOOTH_SHOW_BATTERY,
     };
 }

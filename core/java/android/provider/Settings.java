@@ -6709,6 +6709,12 @@ public final class Settings {
         @Readable
         public static final String TOAST_ICON = "toast_icon";
 
+        /**
+         * Enable\Disable Bluetooth Battery bar
+         * @hide
+         */
+        public static final String BLUETOOTH_SHOW_BATTERY = "bluetooth_show_battery";
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -7058,6 +7064,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(SHOW_APP_VOLUME);
             PRIVATE_SETTINGS.add(VOLUME_ANSWER_CALL);
             PRIVATE_SETTINGS.add(TOAST_ICON);
+            PRIVATE_SETTINGS.add(BLUETOOTH_SHOW_BATTERY);
         }
 
         /**

@@ -4833,6 +4833,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.BLUETOOTH_SHOW_BATTERY),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -5281,6 +5284,10 @@ public class StatusBar extends SystemUI implements DemoMode,
         boolean disableNotificationAlertInGamingMode = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT, 0,
                 UserHandle.USER_CURRENT) != 0;
+        boolean showBluetoothBattery = Settings.System.getIntForUser(
+                mContext.getContentResolver(), Settings.System.BLUETOOTH_SHOW_BATTERY, 0,
+                UserHandle.USER_CURRENT) == 1;
+
         if (mNotificationPanelViewController != null) {
             mNotificationPanelViewController.setDoubleTapToSleep(doubleTapToSleepEnabled);
             mNotificationPanelViewController.setLockscreenDoubleTapToSleep(lsDoubleTapToSleepEnabled);
@@ -5301,6 +5308,9 @@ public class StatusBar extends SystemUI implements DemoMode,
         if (mPresenter != null) {
             mPresenter.setGamingModeActive(isGamingModeActive);
             mPresenter.setGamingModeNoAlert(disableNotificationAlertInGamingMode);
+        }
+        if (mIconPolicy != null) {
+            mIconPolicy.updateSettings(showBluetoothBattery);
         }
         setScreenBrightnessMode();
         updateNavigationBar(false);
