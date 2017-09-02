@@ -83,5 +83,7 @@ public class GlobalSettings {
         Settings.Global.RINGTONE_FOCUS_MODE_V2,
         Settings.Global.WIFI_OFF_TIMEOUT,
         Settings.Global.BLUETOOTH_OFF_TIMEOUT,
+        Settings.Global.WAKELOCK_BLOCKING_ENABLED,
+        Settings.Global.WAKELOCK_BLOCKING_LIST,
     };
 }
