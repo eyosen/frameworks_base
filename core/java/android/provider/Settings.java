@@ -6126,6 +6126,15 @@ public final class Settings {
         private static final Validator USE_EDGE_SERVICE_FOR_GESTURES_VALIDATOR =
                 BOOLEAN_VALIDATOR;
 
+        /**
+         * @hide
+         */
+        public static final String AICP_SHOW_BATTERY_IMAGE = "status_bar_show_battery_image";
+
+        /** @hide */
+        private static final Validator AICP_SHOW_BATTERY_IMAGE_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -6355,6 +6364,7 @@ public final class Settings {
             GESTURE_PILL_TOGGLE,
             PULSE_AMBIENT_LIGHT_DURATION,
             USE_EDGE_SERVICE_FOR_GESTURES,
+            AICP_SHOW_BATTERY_IMAGE,
             // AICP Settings end
         };
 
@@ -6638,6 +6648,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(GESTURE_PILL_TOGGLE);
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_DURATION);
             PRIVATE_SETTINGS.add(USE_EDGE_SERVICE_FOR_GESTURES);
+            PRIVATE_SETTINGS.add(AICP_SHOW_BATTERY_IMAGE);
             // AICP Settings end
         }
 
@@ -6911,6 +6922,7 @@ public final class Settings {
             VALIDATORS.put(GESTURE_PILL_TOGGLE, GESTURE_PILL_TOGGLE_VALIDATOR);
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_DURATION, PULSE_AMBIENT_LIGHT_DURATION_VALIDATOR);
             VALIDATORS.put(USE_EDGE_SERVICE_FOR_GESTURES,USE_EDGE_SERVICE_FOR_GESTURES_VALIDATOR);
+            VALIDATORS.put(AICP_SHOW_BATTERY_IMAGE, AICP_SHOW_BATTERY_IMAGE_VALIDATOR);
             // AICP Settings end
         }
 
