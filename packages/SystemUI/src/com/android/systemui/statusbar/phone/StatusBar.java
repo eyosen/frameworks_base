@@ -3909,6 +3909,9 @@ public class StatusBar extends SystemUI implements
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DOUBLE_TAP_SLEEP_LOCKSCREEN),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.FP_SWIPE_TO_DISMISS_NOTIFICATIONS),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -4524,6 +4527,9 @@ public class StatusBar extends SystemUI implements
         boolean lsDoubleTapToSleepEnabled = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.DOUBLE_TAP_SLEEP_LOCKSCREEN, 0,
                 UserHandle.USER_CURRENT) != 0;
+        boolean fpDismissNotifications = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.FP_SWIPE_TO_DISMISS_NOTIFICATIONS, 0,
+                UserHandle.USER_CURRENT) != 0;
         if (mNotificationPanelViewController != null) {
             mNotificationPanelViewController.setDoubleTapToSleep(doubleTapToSleepEnabled);
             mNotificationPanelViewController.setLockscreenDoubleTapToSleep(lsDoubleTapToSleepEnabled);
@@ -4531,5 +4537,12 @@ public class StatusBar extends SystemUI implements
         if (mNotificationShadeWindowViewController != null) {
             mNotificationShadeWindowViewController.setDoubleTapToSleep(doubleTapToSleepEnabled);
         }
+        if (mCommandQueueCallbacks != null) {
+            mCommandQueueCallbacks.setFpDismissNotifications(fpDismissNotifications);
+        }
+    }
+
+    public void clearAllNotificationsUser(boolean clearAll) {
+        mStackScroller.clearAllNotifications(clearAll);
     }
 }

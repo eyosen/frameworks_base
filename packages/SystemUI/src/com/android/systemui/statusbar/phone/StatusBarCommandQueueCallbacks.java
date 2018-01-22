@@ -105,6 +105,8 @@ public class StatusBarCommandQueueCallbacks implements CommandQueue.Callbacks {
     private final boolean mVibrateOnOpening;
     private final VibrationEffect mCameraLaunchGestureVibrationEffect;
 
+    // aicp additions start
+    private boolean mFpDismissNotifications;
 
     private static final AudioAttributes VIBRATION_ATTRIBUTES = new AudioAttributes.Builder()
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -354,6 +356,12 @@ public class StatusBarCommandQueueCallbacks implements CommandQueue.Callbacks {
                 mNotificationPanelViewController.flingSettings(0 /* velocity */,
                         NotificationPanelView.FLING_EXPAND);
                 mMetricsLogger.count(NotificationPanelView.COUNTER_PANEL_OPEN_QS, 1);
+            } else if (mFpDismissNotifications && (KeyEvent.KEYCODE_SYSTEM_NAVIGATION_LEFT == key
+                    || KeyEvent.KEYCODE_SYSTEM_NAVIGATION_RIGHT == key)) {
+                if (!mNotificationPanelViewController.isFullyCollapsed() && !mNotificationPanelViewController.isExpanding()){
+                    mMetricsLogger.action(MetricsEvent.ACTION_DISMISS_ALL_NOTES);
+                    mStatusBar.clearAllNotificationsUser(KeyEvent.KEYCODE_SYSTEM_NAVIGATION_LEFT == key ? true : false);
+                }
             }
         }
 
@@ -636,5 +644,9 @@ public class StatusBarCommandQueueCallbacks implements CommandQueue.Callbacks {
             timings[i] = pattern[i];
         }
         return VibrationEffect.createWaveform(timings, /* repeat= */ -1);
+    }
+
+    public void setFpDismissNotifications(boolean fpDismissNotifications) {
+        mFpDismissNotifications = fpDismissNotifications;
     }
 }

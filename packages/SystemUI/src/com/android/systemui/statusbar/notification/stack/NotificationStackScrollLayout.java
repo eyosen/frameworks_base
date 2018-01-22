@@ -1736,14 +1736,14 @@ public class NotificationStackScrollLayout extends ViewGroup implements Dumpable
     }
 
     @ShadeViewRefactor(RefactorComponent.STATE_RESOLVER)
-    public void dismissViewAnimated(View child, Runnable endRunnable, int delay, long duration) {
+    public void dismissViewAnimated(View child, Runnable endRunnable, int delay, long duration, boolean forceToLeft) {
         if (child instanceof SectionHeaderView) {
              ((StackScrollerDecorView) child).setContentVisible(
                      false /* visible */, true /* animate */, endRunnable);
              return;
         }
         mSwipeHelper.dismissChild(child, 0, endRunnable, delay, true, duration,
-                true /* isDismissAll */);
+                true /* isDismissAll */, forceToLeft);
     }
 
     @ShadeViewRefactor(RefactorComponent.STATE_RESOLVER)
@@ -5118,7 +5118,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements Dumpable
      */
     @ShadeViewRefactor(RefactorComponent.SHADE_VIEW)
     @VisibleForTesting
-    void clearNotifications(@SelectedRows int selection, boolean closeShade) {
+    void clearNotifications(@SelectedRows int selection, boolean closeShade, boolean forceToLeft) {
         // Animate-swipe all dismissable notifications, then animate the shade closed
         final ArrayList<View> viewsToAnimateAway = getVisibleViewsToAnimateAway(selection);
         final ArrayList<ExpandableNotificationRow> rowsToDismissInBackend =
@@ -5149,7 +5149,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements Dumpable
             if (i == 0) {
                 endRunnable = dismissInBackend;
             }
-            dismissViewAnimated(view, endRunnable, totalDelay, ANIMATION_DURATION_SWIPE);
+            dismissViewAnimated(view, endRunnable, totalDelay, ANIMATION_DURATION_SWIPE, forceToLeft);
             currentDelay = Math.max(30, currentDelay - rowDelayDecrement);
             totalDelay += currentDelay;
         }
@@ -5178,7 +5178,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements Dumpable
             if (mFooterDismissListener != null) {
                 mFooterDismissListener.onDismiss();
             }
-            clearNotifications(ROWS_ALL, true /* closeShade */);
+            clearNotifications(ROWS_ALL, true /* closeShade */, false /* forceToLeft */);
             footerView.setSecondaryVisible(false /* visible */, true /* animate */);
         });
         setFooterView(footerView);
@@ -5448,6 +5448,10 @@ public class NotificationStackScrollLayout extends ViewGroup implements Dumpable
      */
     public void setOnScrollListener(Consumer<Integer> listener) {
         mScrollListener = listener;
+    }
+
+    public void clearAllNotifications(boolean forceToLeft) {
+        clearNotifications(ROWS_ALL, true /* closeShade */, forceToLeft);
     }
 
     /**
