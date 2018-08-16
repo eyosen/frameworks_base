@@ -131,6 +131,7 @@ import com.android.internal.logging.UiEventLoggerImpl;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.statusbar.RegisterStatusBarResult;
+import com.android.internal.util.aicp.DeviceUtils;
 import com.android.internal.util.hwkeys.ActionConstants;
 import com.android.internal.util.hwkeys.ActionUtils;
 import com.android.internal.util.hwkeys.PackageMonitor;
@@ -1241,7 +1242,7 @@ public class StatusBar extends SystemUI implements
         mHeadsUpManager.addListener(mVisualStabilityManager);
         mNotificationPanelViewController.setHeadsUpManager(mHeadsUpManager);
 
-        createNavigationBar(result);
+        updateNavigationBar(true);
 
         if (ENABLE_LOCKSCREEN_WALLPAPER && mWallpaperSupported) {
             mLockscreenWallpaper = mLockscreenWallpaperLazy.get();
@@ -3985,6 +3986,9 @@ public class StatusBar extends SystemUI implements
         return mDeviceInteractive;
     }
 
+    // aicp additions start
+    private boolean mShowNavBar;
+
     private class AicpSettingsObserver extends ContentObserver {
         AicpSettingsObserver(Handler handler) {
             super(handler);
@@ -4015,6 +4019,9 @@ public class StatusBar extends SystemUI implements
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.FORCE_SHOW_NAVBAR),
                     false, this, UserHandle.USER_ALL);
         }
 
@@ -4659,6 +4666,7 @@ public class StatusBar extends SystemUI implements
             mCommandQueueCallbacks.setFpDismissNotifications(fpDismissNotifications);
         }
         setScreenBrightnessMode();
+        updateNavigationBar(false);
     }
 
     private void adjustBrightness(int x) {
@@ -4757,5 +4765,23 @@ public class StatusBar extends SystemUI implements
 
     public void clearAllNotificationsUser(boolean clearAll) {
         mStackScroller.clearAllNotifications(clearAll);
+    }
+
+    private void updateNavigationBar(boolean init) {
+        boolean showNavBar = DeviceUtils.deviceSupportNavigationBar(mContext);
+        if (init) {
+            if (showNavBar) {
+                mNavigationBarController.createNavigationBars(true, null);
+            }
+        } else {
+            if (showNavBar != mShowNavBar) {
+                if (showNavBar) {
+                    mNavigationBarController.createNavigationBars(true, null);
+                } else {
+                    mNavigationBarController.removeNavigationBar(mDisplayId);
+                }
+            }
+        }
+        mShowNavBar = showNavBar;
     }
 }
