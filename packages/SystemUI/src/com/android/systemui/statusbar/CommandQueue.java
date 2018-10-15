@@ -120,6 +120,7 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
     private static final int MSG_TOGGLE_CAMERA_FLASH           = 49 << MSG_SHIFT;
     private static final int MSG_SHOW_IN_DISPLAY_FINGERPRINT_VIEW = 50 << MSG_SHIFT;
     private static final int MSG_HIDE_IN_DISPLAY_FINGERPRINT_VIEW = 51 << MSG_SHIFT;
+    private static final int MSG_TOGGLE_PIE_ORIENTATION        = 52 << MSG_SHIFT;
 
     public static final int FLAG_EXCLUDE_NONE = 0;
     public static final int FLAG_EXCLUDE_SEARCH_PANEL = 1 << 0;
@@ -285,6 +286,7 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
         default void toggleCameraFlash() { }
         default void showInDisplayFingerprintView() { }
         default void hideInDisplayFingerprintView() { }
+        default void toggleOrientationListener(boolean enable) {}
 
         /**
          * @see IStatusBar#onDisplayReady(int)
@@ -571,6 +573,13 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
         synchronized (mLock) {
             mHandler.removeMessages(MSG_SHOW_PICTURE_IN_PICTURE_MENU);
             mHandler.obtainMessage(MSG_SHOW_PICTURE_IN_PICTURE_MENU).sendToTarget();
+        }
+    }
+
+    public void toggleOrientationListener(boolean enable) {
+        synchronized (mLock) {
+            mHandler.removeMessages(MSG_TOGGLE_PIE_ORIENTATION);
+            mHandler.obtainMessage(MSG_TOGGLE_PIE_ORIENTATION).sendToTarget();
         }
     }
 
@@ -1145,6 +1154,11 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
                 case MSG_HIDE_IN_DISPLAY_FINGERPRINT_VIEW:
                     for (int i = 0; i < mCallbacks.size(); i++) {
                         mCallbacks.get(i).hideInDisplayFingerprintView();
+                    }
+                    break;
+                case MSG_TOGGLE_PIE_ORIENTATION:
+                    for (int i = 0; i < mCallbacks.size(); i++) {
+                        mCallbacks.get(i).toggleOrientationListener(msg.arg1 != 0);
                     }
                     break;
             }

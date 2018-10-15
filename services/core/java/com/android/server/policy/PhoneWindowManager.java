@@ -553,6 +553,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mKeyguardOccludedChanged;
     private boolean mNotifyUserActivity;
 
+    // Pie
+    boolean mPieState;
+
     SleepToken mScreenOffSleepToken;
     volatile boolean mKeyguardOccluded;
     Intent mHomeIntent;
@@ -956,6 +959,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.USE_EDGE_SERVICE_FOR_GESTURES), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.PIE_STATE), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -2382,6 +2388,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_CURRENT) != 0;
             updateNotchDisplayPolicy();
 
+            // PIE state
+            mPieState = Settings.Secure.getIntForUser(resolver,
+                    Settings.Secure.PIE_STATE, 0, UserHandle.USER_CURRENT) == 1;
+            updateDefaultDisplayPolicy();
+
             // Configure wake gesture.
             boolean wakeGestureEnabledSetting = Settings.Secure.getIntForUser(resolver,
                     Settings.Secure.WAKE_GESTURE_ENABLED, 0,
@@ -2441,6 +2452,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private void updateNotchDisplayPolicy() {
         mDefaultDisplayPolicy.setHideNotch(mHideNotch);
     }
+
+    private void updateDefaultDisplayPolicy() {
+        mDefaultDisplayPolicy.setPieState(mPieState);
+    }
+
 
     private void updateWakeGestureListenerLp() {
         if (shouldEnableWakeGestureLp()) {
@@ -4668,6 +4684,22 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     /**
+     * Toggle the StatusBar orientation listener state.
+     */
+    private void toggleOrientationListener(boolean enable) {
+        IStatusBarService statusbar = getStatusBarService();
+        if (statusbar != null) {
+           try {
+               statusbar.toggleOrientationListener(enable);
+           } catch (RemoteException e) {
+               Slog.e(TAG, "RemoteException when controlling orientation sensor", e);
+               // re-acquire status bar service next time it is needed.
+               mStatusBarService = null;
+           }
+        }
+    }
+
+    /**
      * Notify the StatusBar that a system key was pressed without blocking the current thread.
      */
     private void sendSystemKeyToStatusBarAsync(int keyCode) {
@@ -5278,6 +5310,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             } catch (RemoteException unhandled) {
             }
         }
+        toggleOrientationListener(true);
     }
 
     /**

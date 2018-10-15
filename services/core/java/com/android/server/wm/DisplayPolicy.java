@@ -368,6 +368,9 @@ public class DisplayPolicy {
      */
     private boolean mForceShowSystemBarsFromExternal;
 
+    // Pie
+    boolean mPieState;
+
     private boolean mShowingDream;
     private boolean mLastShowingDream;
     private boolean mDreamingLockscreen;
@@ -478,7 +481,7 @@ public class DisplayPolicy {
 
                     @Override
                     public void onSwipeFromBottom() {
-                        if (mNavigationBar != null && mNavigationBarPosition == NAV_BAR_BOTTOM) {
+                        if (mNavigationBar != null && mNavigationBarPosition == NAV_BAR_BOTTOM && !immersiveModeImplementsPie()) {
                             requestTransientBars(mNavigationBar);
                         }
                     }
@@ -493,7 +496,7 @@ public class DisplayPolicy {
                         final boolean sideAllowed = mNavigationBarAlwaysShowOnSideGesture
                                 || mNavigationBarPosition == NAV_BAR_RIGHT;
                         if (mNavigationBar != null && sideAllowed
-                                && !mSystemGestures.currentGestureStartedInRegion(excludedRegion)) {
+                                && !mSystemGestures.currentGestureStartedInRegion(excludedRegion) && !immersiveModeImplementsPie()) {
                             requestTransientBars(mNavigationBar);
                         }
                         excludedRegion.recycle();
@@ -509,7 +512,7 @@ public class DisplayPolicy {
                         final boolean sideAllowed = mNavigationBarAlwaysShowOnSideGesture
                                 || mNavigationBarPosition == NAV_BAR_LEFT;
                         if (mNavigationBar != null && sideAllowed
-                                && !mSystemGestures.currentGestureStartedInRegion(excludedRegion)) {
+                                && !mSystemGestures.currentGestureStartedInRegion(excludedRegion) && !immersiveModeImplementsPie()) {
                             requestTransientBars(mNavigationBar);
                         }
                         excludedRegion.recycle();
@@ -1010,6 +1013,10 @@ public class DisplayPolicy {
                 mLastEdgePositions = flags;
             }
         }
+    }
+
+    public void setPieState(boolean pieState){
+          mPieState = pieState;
     }
 
     /**
@@ -1811,7 +1818,7 @@ public class DisplayPolicy {
                         displayFrames.mRestrictedOverscan.bottom = top;
             } else {
                 // We currently want to hide the navigation UI - unless we expanded the status bar.
-                mNavigationBarController.setBarShowingLw(statusBarForcesShowingNavigation);
+                mNavigationBarController.setBarShowingLw(statusBarForcesShowingNavigation && !immersiveModeImplementsPie());
             }
             if (navVisible && !navTranslucent && !navAllowedHidden
                     && !mNavigationBar.isAnimatingLw()
@@ -1834,7 +1841,7 @@ public class DisplayPolicy {
                         displayFrames.mRestrictedOverscan.right = left;
             } else {
                 // We currently want to hide the navigation UI - unless we expanded the status bar.
-                mNavigationBarController.setBarShowingLw(statusBarForcesShowingNavigation);
+                mNavigationBarController.setBarShowingLw(statusBarForcesShowingNavigation && !immersiveModeImplementsPie());
             }
             if (navVisible && !navTranslucent && !navAllowedHidden
                     && !mNavigationBar.isAnimatingLw()
@@ -1857,7 +1864,7 @@ public class DisplayPolicy {
                         displayFrames.mRestrictedOverscan.left = right;
             } else {
                 // We currently want to hide the navigation UI - unless we expanded the status bar.
-                mNavigationBarController.setBarShowingLw(statusBarForcesShowingNavigation);
+                mNavigationBarController.setBarShowingLw(statusBarForcesShowingNavigation && !immersiveModeImplementsPie());
             }
             if (navVisible && !navTranslucent && !navAllowedHidden
                     && !mNavigationBar.isAnimatingLw()
@@ -1887,6 +1894,10 @@ public class DisplayPolicy {
 
         if (DEBUG_LAYOUT) Slog.i(TAG, "mNavigationBar frame: " + navigationFrame);
         return mNavigationBarController.checkHiddenLw();
+    }
+
+    private boolean immersiveModeImplementsPie() {
+        return mPieState;
     }
 
     private void setAttachedWindowFrames(WindowState win, int fl, int adjust, WindowState attached,
@@ -2542,7 +2553,7 @@ public class DisplayPolicy {
         mService.mPolicy.applyKeyguardPolicyLw(win, imeTarget);
         final int fl = PolicyControl.getWindowFlags(win, attrs);
         if (mTopFullscreenOpaqueWindowState == null && affectsSystemUi
-                && attrs.type == TYPE_INPUT_METHOD) {
+                && attrs.type == TYPE_INPUT_METHOD && !immersiveModeImplementsPie()) {
             mForcingShowNavBar = true;
             mForcingShowNavBarLayer = win.getSurfaceLayer();
         }
@@ -2697,6 +2708,13 @@ public class DisplayPolicy {
                         && mStatusBarController.isTransientShowing()) {
                     mStatusBarController.updateVisibilityLw(false /*transientAllowed*/,
                             mLastSystemUiFlags, mLastSystemUiFlags);
+                }
+                if (statusBarForcesShowingNavigation && !immersiveModeImplementsPie()) {
+                    if (mNavigationBar != null) {
+                        if (mNavigationBarController.setBarShowingLw(true)) {
+                            changes |= FINISH_LAYOUT_REDO_LAYOUT;
+                        }
+                   }
                 }
             } else if (mTopFullscreenOpaqueWindowState != null) {
                 topIsFullscreen = topAppHidesStatusBar;
@@ -3239,7 +3257,9 @@ public class DisplayPolicy {
                     return;
                 }
                 if (sb) mStatusBarController.showTransient();
-                if (nb) mNavigationBarController.showTransient();
+                if (nb && !immersiveModeImplementsPie()) {
+                    mNavigationBarController.showTransient();
+                }
                 mImmersiveModeConfirmation.confirmCurrentPrompt();
                 updateSystemUiVisibilityLw();
             }

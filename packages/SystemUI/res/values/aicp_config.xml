@@ -23,7 +23,7 @@
 
     <!-- The default tiles to display in QuickSettings -->
     <string name="quick_settings_tiles_extra" translatable="false">
-        cpuinfo,compass,music,screenshot,scr,reboot,usb_tether,caffeine,aicp_extras,heads_up,smartpixels,adb_network,aod,locale,sound,onthego,sync,weather,soundsearch,dataswitch,hwkeys,immersive
+        cpuinfo,compass,music,screenshot,scr,reboot,usb_tether,caffeine,aicp_extras,heads_up,smartpixels,adb_network,aod,locale,sound,onthego,sync,weather,soundsearch,dataswitch,hwkeys,immersive,pie
     </string>
 
     <!-- The CPU temperature sensor path, defaults to empty -->
@@ -61,4 +61,16 @@
     <!-- Config to enable/diaable qs tile tinting -->
     <bool name="config_enable_qs_tile_tinting">false</bool>
 
+    <!-- Overall pie animation speed -->
+    <integer name="pie_animation_speed">250</integer>
+
+    <!-- Maximum amount of notification icons allowed to show in PIE -->
+    <integer name="pie_maximum_notifications">8</integer>
+
+    <!-- Pie letter spacing -->
+    <item name="pie_status_letter_spacing" format="float" type="integer">0.2</item>
+    <item name="pie_clock_letter_spacing" format="float" type="integer">0.1</item>
+
+    <bool name="config_relocatePieOnRotation">true</bool>
+    <bool name="config_forcePieCentered">false</bool>
 </resources>
