@@ -1061,6 +1061,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
             }
             if (isBluetoothPersistedStateOnBluetooth() || !isBleAppPresent()) {
                 // This triggers transition to STATE_ON
+                mBluetooth.updateQuietModeStatus(mQuietEnable);
                 mBluetooth.onLeServiceUp(mContext.getAttributionSource());
                 persistBluetoothSetting(BLUETOOTH_ON_BLUETOOTH);
             }
@@ -1864,6 +1865,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                     }
                     mHandler.removeMessages(MESSAGE_RESTART_BLUETOOTH_SERVICE);
                     mEnable = true;
+                    mQuietEnable = (msg.arg1 == 1);
 
                     if (isBle == 0) {
                         persistBluetoothSetting(BLUETOOTH_ON_BLUETOOTH);
@@ -1881,6 +1883,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                                         Slog.i(TAG, "Already at BLE_ON State");
                                     } else {
                                         Slog.w(TAG, "BT Enable in BLE_ON State, going to ON");
+                                        mBluetooth.updateQuietModeStatus(mQuietEnable);
                                         mBluetooth.onLeServiceUp(mContext.getAttributionSource());
                                     }
                                     break;
@@ -2624,7 +2627,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
             intent.putExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, prevState);
             intent.putExtra(BluetoothAdapter.EXTRA_STATE, newState);
             intent.addFlags(Intent.FLAG_RECEIVER_REGISTERED_ONLY_BEFORE_BOOT);
-            mContext.sendBroadcastAsUser(intent, UserHandle.ALL, null, 
+            mContext.sendBroadcastAsUser(intent, UserHandle.ALL, null,
                     getTempAllowlistBroadcastOptions());
         }
     }
