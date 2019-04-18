@@ -6032,7 +6032,7 @@ public final class Settings {
 
         /** @hide */
         private static final Validator LOCKCLOCK_FONT_SIZE_VALIDATOR =
-              new SettingsValidators.InclusiveIntegerRangeValidator(50, 108);
+              new SettingsValidators.InclusiveIntegerRangeValidator(30, 108);
 
         /**
          * Statusbar AICP logo
