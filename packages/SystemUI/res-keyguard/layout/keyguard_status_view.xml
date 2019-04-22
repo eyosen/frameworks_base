@@ -85,6 +85,7 @@
                     android:layout_alignParentTop="true"
                     android:letterSpacing="0.03"
                     style="@style/customtextclock_big_thin"
+                    android:singleLine="true"
                     android:text="@string/custom_text_clock_top_text_default"
                     android:textColor="?android:attr/colorAccent"
                     analog:HandType="2" />
