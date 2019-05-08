@@ -1513,7 +1513,7 @@ public class ActivityManagerService extends IActivityManager.Stub
     static final HostingRecord sNullHostingRecord = new HostingRecord(null);
 
     final SwipeToScreenshotObserver mSwipeToScreenshotObserver;
-    private boolean mIsSwipeToScrenshotEnabled;
+    private boolean mIsSwipeToScreenshotEnabled;
 
     /**
      * Used to notify activity lifecycle events.
@@ -17249,7 +17249,7 @@ public class ActivityManagerService extends IActivityManager.Stub
         }
 
         private void update() {
-            mIsSwipeToScrenshotEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+            mIsSwipeToScreenshotEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
         }
 
@@ -17261,7 +17261,7 @@ public class ActivityManagerService extends IActivityManager.Stub
     @Override
     public boolean isSwipeToScreenshotGestureActive() {
         synchronized (this) {
-            return mIsSwipeToScrenshotEnabled;
+            return mIsSwipeToScreenshotEnabled && SystemProperties.getBoolean("sys.android.screenshot", false);
         }
     }
 }
