@@ -5512,6 +5512,12 @@ public final class Settings {
          */
         public static final String MUSIC_TILE_TITLE = "music_tile_title";
 
+        /**
+         * Whether to show charging animation
+         * @hide
+         */
+        public static final String CHARGING_ANIMATION = "charging_animation";
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -5693,6 +5699,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(AICP_ASPECT_RATIO_APPS_ENABLED);
             PRIVATE_SETTINGS.add(LOCK_HIDE_STATUS_BAR);
             PRIVATE_SETTINGS.add(MUSIC_TILE_TITLE);
+            PRIVATE_SETTINGS.add(CHARGING_ANIMATION);
         }
 
         /**
