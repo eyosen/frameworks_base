@@ -7599,4 +7599,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         } catch (Exception e) {
         }
     }
+
+    @Override
+    public void takeAlternativeScreenshot() {
+        mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
+        mHandler.post(mScreenshotRunnable);
+    }
+
 }
