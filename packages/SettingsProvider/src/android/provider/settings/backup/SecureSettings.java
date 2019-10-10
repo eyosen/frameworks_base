@@ -242,5 +242,7 @@ public class SecureSettings {
         Settings.Secure.STATUSBAR_CLOCK_DATE_STYLE,
         Settings.Secure.STATUSBAR_CLOCK_DATE_FORMAT,
         Settings.Secure.STATUSBAR_CLOCK_DATE_POSITION,
+        Settings.Secure.PULSE_AMBIENT_LIGHT,
+        Settings.Secure.PULSE_AMBIENT_LIGHT_COLOR,
     };
 }
