@@ -292,5 +292,6 @@ public class SystemSettings {
         Settings.System.QS_SYSTEM_INFO,
         Settings.System.QS_DATAUSAGE,
         Settings.System.FLASHLIGHT_ON_CALL,
+        Settings.System.FLASHLIGHT_ON_CALL_WAITING,
     };
 }
