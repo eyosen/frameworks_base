@@ -620,7 +620,7 @@
     <dimen name="qs_header_alarm_text_margin_start">6dp</dimen>
     <dimen name="qs_header_separator_width">8dp</dimen>
     <dimen name="qs_header_carrier_separator_width">6dp</dimen>
-    <dimen name="qs_status_separator">32dp</dimen>
+    <dimen name="qs_status_separator">8dp</dimen>
     <dimen name="qs_carrier_margin_width">4dp</dimen>
     <dimen name="qs_footer_icon_size">20dp</dimen>
     <dimen name="qs_header_top_padding">15dp</dimen>

@@ -79,4 +79,7 @@
 
     <!-- OmniWeather image size -->
     <dimen name="current_weather_image_size">30dp</dimen>
+
+    <!-- QS System Info -->
+    <dimen name="qs_temperatur_icon_size">16sp</dimen>
 </resources>
