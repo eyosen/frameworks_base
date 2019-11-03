@@ -4821,4 +4821,8 @@ public class StatusBar extends SystemUI implements
                     UserHandle.USER_CURRENT) == 1);
         }
     }
+
+    public void setSkipTrackUser(int key) {
+        mMediaManager.onSkipTrackEvent(key);
+    }
 }

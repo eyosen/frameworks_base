@@ -49,6 +49,7 @@ import com.android.internal.graphics.ColorUtils;
 import com.android.settingslib.Utils;
 import com.android.systemui.R;
 import com.android.systemui.animation.Interpolators;
+import com.android.systemui.keyguard.KeyguardSliceProvider;
 import com.android.systemui.util.wakelock.KeepAwakeAnimationListener;
 
 import java.io.FileDescriptor;
@@ -62,7 +63,7 @@ import java.util.Set;
 /**
  * View visible under the clock on the lock screen and AoD.
  */
-public class KeyguardSliceView extends LinearLayout {
+public class KeyguardSliceView extends LinearLayout implements View.OnClickListener {
 
     private static final String TAG = "KeyguardSliceView";
     public static final int DEFAULT_ANIM_DURATION = 550;
@@ -81,7 +82,6 @@ public class KeyguardSliceView extends LinearLayout {
      */
     private Runnable mContentChangeListener;
     private boolean mHasHeader;
-    private View.OnClickListener mOnClickListener;
 
     public KeyguardSliceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -107,6 +107,7 @@ public class KeyguardSliceView extends LinearLayout {
         mTextColor = Utils.getColorAttrDefaultColor(mContext, R.attr.wallpaperTextColor);
         mIconSize = (int) mContext.getResources().getDimension(R.dimen.widget_icon_size);
         mIconSizeWithHeader = (int) mContext.getResources().getDimension(R.dimen.header_icon_size);
+        mTitle.setOnClickListener(this);
         mTitle.setBreakStrategy(LineBreaker.BREAK_STRATEGY_BALANCED);
     }
 
@@ -201,7 +202,7 @@ public class KeyguardSliceView extends LinearLayout {
                 }
             }
             button.setCompoundDrawablesRelative(iconDrawable, null, null, null);
-            button.setOnClickListener(mOnClickListener);
+            button.setOnClickListener(this);
             button.setClickable(pendingIntent != null);
         }
 
@@ -237,6 +238,19 @@ public class KeyguardSliceView extends LinearLayout {
             if (v instanceof TextView) {
                 ((TextView) v).setTextColor(blendedColor);
             }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        /*final PendingIntent action = mClickActions.get(v);
+        if (action != null && mActivityStarter != null) {
+            mActivityStarter.startPendingIntentDismissingKeyguard(action);
+        }*/ //not being used by aosp actually for any slice - see KeyguardSliceProvider.addPrimaryActionLocked
+
+        KeyguardSliceProvider instance = KeyguardSliceProvider.getAttachedInstance();
+        if (instance != null && v == mTitle && instance.needsMediaLocked()) {
+            instance.getMediaManager().skipNextTrack();
         }
     }
 
@@ -286,12 +300,6 @@ public class KeyguardSliceView extends LinearLayout {
         pw.println("  mTextColor: " + Integer.toHexString(mTextColor));
         pw.println("  mDarkAmount: " + mDarkAmount);
         pw.println("  mHasHeader: " + mHasHeader);
-    }
-
-    @Override
-    public void setOnClickListener(View.OnClickListener onClickListener) {
-        mOnClickListener = onClickListener;
-        mTitle.setOnClickListener(onClickListener);
     }
 
     public static class Row extends LinearLayout {

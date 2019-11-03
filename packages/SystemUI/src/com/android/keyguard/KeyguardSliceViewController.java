@@ -93,7 +93,7 @@ public class KeyguardSliceViewController extends ViewController<KeyguardSliceVie
         }
     };
 
-    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+/*    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             final PendingIntent action = mClickActions.get(v);
@@ -101,7 +101,7 @@ public class KeyguardSliceViewController extends ViewController<KeyguardSliceVie
                 mActivityStarter.startPendingIntentDismissingKeyguard(action);
             }
         }
-    };
+    };*/
 
     @Inject
     public KeyguardSliceViewController(

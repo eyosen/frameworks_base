@@ -337,6 +337,11 @@ public class StatusBarCommandQueueCallbacks implements CommandQueue.Callbacks {
         // Panels are not available in setup
         if (!mDeviceProvisionedController.isCurrentUserSetup()) return;
 
+        if (KeyEvent.KEYCODE_MEDIA_PREVIOUS == key || KeyEvent.KEYCODE_MEDIA_NEXT == key) {
+            mStatusBar.setSkipTrackUser(key);
+            return;
+        }
+
         if (KeyEvent.KEYCODE_SYSTEM_NAVIGATION_UP == key) {
             mMetricsLogger.action(MetricsEvent.ACTION_SYSTEM_NAVIGATION_KEY_UP);
             mNotificationPanelViewController.collapse(
