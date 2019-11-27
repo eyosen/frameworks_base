@@ -6600,6 +6600,11 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_BATTERY_INFO_TEMP_UNIT = "lockscreen_charge_temp_unit";
 
+        /**
+         * @hide
+         */
+        public static final String OMNI_USE_OLD_MOBILETYPE = "use_old_mobiletype";
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -6935,6 +6940,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(ADAPTIVE_PLAYBACK_TIMEOUT);
             PRIVATE_SETTINGS.add(COMBINED_STATUS_BAR_SIGNAL_ICONS);
             PRIVATE_SETTINGS.add(LOCKSCREEN_BATTERY_INFO_TEMP_UNIT);
+            PRIVATE_SETTINGS.add(OMNI_USE_OLD_MOBILETYPE);
         }
 
         /**
