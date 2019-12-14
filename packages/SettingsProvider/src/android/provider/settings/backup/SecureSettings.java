@@ -245,5 +245,6 @@ public class SecureSettings {
         Settings.Secure.PULSE_AMBIENT_LIGHT,
         Settings.Secure.PULSE_AMBIENT_LIGHT_COLOR,
         Settings.Secure.PULSE_AMBIENT_LIGHT_DURATION,
+        Settings.Secure.PULSE_AMBIENT_LIGHT_AUTO_COLOR,
     };
 }
