@@ -244,5 +244,6 @@ public class SecureSettings {
         Settings.Secure.STATUSBAR_CLOCK_DATE_POSITION,
         Settings.Secure.PULSE_AMBIENT_LIGHT,
         Settings.Secure.PULSE_AMBIENT_LIGHT_COLOR,
+        Settings.Secure.PULSE_AMBIENT_LIGHT_DURATION,
     };
 }
