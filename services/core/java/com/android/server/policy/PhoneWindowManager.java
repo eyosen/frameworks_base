@@ -1998,8 +1998,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         });
 
         mHandler = new PolicyHandler();
-        mCameraManager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
-        mCameraManager.registerTorchCallback(new TorchModeCallback(), mHandler);
         mWakeGestureListener = new MyWakeGestureListener(mContext, mHandler);
         // only for hwkey devices
         if (!mContext.getResources().getBoolean(
@@ -2008,6 +2006,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
         mSettingsObserver = new SettingsObserver(mHandler);
         mSettingsObserver.observe();
+
+        mAlarmManager = mContext.getSystemService(AlarmManager.class);
+        mCameraManager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
+        mCameraManager.registerTorchCallback(new TorchModeCallback(), mHandler);
+
         mModifierShortcutManager = new ModifierShortcutManager(context);
         mUiMode = context.getResources().getInteger(
                 com.android.internal.R.integer.config_defaultUiModeType);
@@ -6935,10 +6938,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (mRearFlashCameraId != null) return mRearFlashCameraId;
         for (final String id : mCameraManager.getCameraIdList()) {
             CameraCharacteristics c = mCameraManager.getCameraCharacteristics(id);
-            boolean flashAvailable = c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-            int lensDirection = c.get(CameraCharacteristics.LENS_FACING);
-            if (flashAvailable && lensDirection == CameraCharacteristics.LENS_FACING_BACK) {
+            Boolean flashAvailable = c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+            Integer lensFacing = c.get(CameraCharacteristics.LENS_FACING);
+            if (flashAvailable != null && flashAvailable
+                    && lensFacing != null && lensFacing == CameraCharacteristics.LENS_FACING_BACK) {
                 mRearFlashCameraId = id;
+                break;
             }
         }
         return mRearFlashCameraId;
