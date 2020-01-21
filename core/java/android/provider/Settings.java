@@ -6528,6 +6528,12 @@ public final class Settings {
          */
         public static final String QS_SYSTEM_INFO = "qs_system_info";
 
+        /**
+         * Show data usage in QS header
+         * @hide
+         */
+        public static final String QS_DATAUSAGE = "qs_datausage";
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -6853,6 +6859,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_MAX_NOTIF_CONFIG);
             PRIVATE_SETTINGS.add(LOCK_SCREEN_CUSTOM_NOTIF);
             PRIVATE_SETTINGS.add(QS_SYSTEM_INFO);
+            PRIVATE_SETTINGS.add(QS_DATAUSAGE);
         }
 
         /**

@@ -82,4 +82,7 @@
 
     <!-- QS System Info -->
     <dimen name="qs_temperatur_icon_size">16sp</dimen>
+
+    <!-- Data Usage -->
+    <dimen name="data_usage_padding_start">4dp</dimen>
 </resources>

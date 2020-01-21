@@ -290,5 +290,6 @@ public class SystemSettings {
         Settings.System.LOCKSCREEN_MAX_NOTIF_CONFIG,
         Settings.System.LOCK_SCREEN_CUSTOM_NOTIF,
         Settings.System.QS_SYSTEM_INFO,
+        Settings.System.QS_DATAUSAGE,
     };
 }
