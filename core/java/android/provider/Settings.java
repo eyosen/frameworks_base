@@ -7131,6 +7131,18 @@ public final class Settings {
         public static final String VOLUME_ANSWER_CALL = "volume_answer_call";
 
         /**
+         * Which Vibration Pattern to use
+         * 0: dzzz-dzzz
+         * 1: dzzz-da
+         * 2: mm-mm-mm
+         * 3: da-da-dzzz
+         * 4: da-dzzz-da
+         * 5: custom
+         * @hide
+         */
+        public static final String RINGTONE_VIBRATION_PATTERN = "ringtone_vibration_pattern";
+
+        /**
          * Custom vibration pattern
          * format: ms,ms,ms each a range from 0 to 1000 ms
          * @hide
@@ -7403,6 +7415,8 @@ public final class Settings {
             AICP_SETTINGS_VALIDATORS.put(LOCKSCREEN_BLUR, ANY_INTEGER_VALIDATOR);
             AICP_SETTINGS_VALIDATORS.put(NAVIGATION_BAR_MENU_ARROW_KEYS, BOOLEAN_VALIDATOR);
             AICP_SETTINGS_VALIDATORS.put(VOLUME_ANSWER_CALL, BOOLEAN_VALIDATOR);
+            AICP_SETTINGS_VALIDATORS.put(RINGTONE_VIBRATION_PATTERN, ANY_INTEGER_VALIDATOR);
+            AICP_SETTINGS_VALIDATORS.put(CUSTOM_RINGTONE_VIBRATION_PATTERN, ANY_STRING_VALIDATOR);
         }
 
         /**
