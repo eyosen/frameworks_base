@@ -6313,6 +6313,15 @@ public final class Settings {
         private static final Validator GAMING_MODE_DYNAMIC_STATE_VALIDATOR =
                 BOOLEAN_VALIDATOR;
 
+        /**
+         * Whether to show arrow keys in navigation bar
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_ARROW_KEYS = "navigation_bar_menu_arrow_keys";
+        /** @hide */
+        private static final Validator NAVIGATION_BAR_ARROW_KEYS_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -6561,6 +6570,7 @@ public final class Settings {
             GAMING_MODE_NOTIFICATIONS,
             GAMING_MODE_MANUAL_BRIGHTNESS_TOGGLE,
             GAMING_MODE_DYNAMIC_STATE,
+            NAVIGATION_BAR_ARROW_KEYS,
             // AICP Settings end
         };
 
@@ -6860,6 +6870,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(GAMING_MODE_NOTIFICATIONS);
             PRIVATE_SETTINGS.add(GAMING_MODE_MANUAL_BRIGHTNESS_TOGGLE);
             PRIVATE_SETTINGS.add(GAMING_MODE_DYNAMIC_STATE);
+            PRIVATE_SETTINGS.add(NAVIGATION_BAR_ARROW_KEYS);
             // AICP Settings end
         }
 
@@ -7149,6 +7160,8 @@ public final class Settings {
             VALIDATORS.put(GAMING_MODE_NOTIFICATIONS, GAMING_MODE_NOTIFICATIONS_VALIDATOR);
             VALIDATORS.put(GAMING_MODE_MANUAL_BRIGHTNESS_TOGGLE, GAMING_MODE_MANUAL_BRIGHTNESS_TOGGLE_VALIDATOR);
             VALIDATORS.put(GAMING_MODE_DYNAMIC_STATE, GAMING_MODE_DYNAMIC_STATE_VALIDATOR);
+            VALIDATORS.put(NAVIGATION_BAR_ARROW_KEYS,
+                    NAVIGATION_BAR_ARROW_KEYS_VALIDATOR);
             // AICP Settings end
         }
 
