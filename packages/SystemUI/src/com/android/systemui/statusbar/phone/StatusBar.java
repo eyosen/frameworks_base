@@ -72,6 +72,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.om.IOverlayManager;
+import android.content.om.OverlayInfo;
 import android.content.pm.IPackageManager;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -151,6 +153,7 @@ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.statusbar.RegisterStatusBarResult;
 import com.android.internal.util.aicp.DeviceUtils;
+import com.android.internal.util.aicp.NavbarStyles;
 import com.android.internal.util.hwkeys.ActionConstants;
 import com.android.internal.util.hwkeys.ActionUtils;
 import com.android.internal.util.hwkeys.PackageMonitor;
@@ -722,6 +725,8 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     // aicp additions start
     private boolean mFpDismissNotifications;
+    private int mNavbarStyle;
+    private IOverlayManager mOverlayManager;
 
     private class AicpSettingsObserver extends ContentObserver {
         AicpSettingsObserver(Handler handler) {
@@ -844,6 +849,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.OMNI_STATUS_BAR_CUSTOM_HEADER),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVBAR_STYLE),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -883,6 +891,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             setGamingModeActive();
             setGamingModeHeadsupToggle();
             setMediaHeadsup();
+            updateNavbarStyle();
             updateNavigationBar(getRegisterStatusBarResult(), false);
         }
     }
@@ -937,6 +946,8 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         mBypassHeadsUpNotifier.setUp(mEntryManager);
         mNotificationAlertingManager.setStatusBar(this);
+        mOverlayManager = IOverlayManager.Stub.asInterface(
+                ServiceManager.getService(Context.OVERLAY_SERVICE));
         mUiModeManager = mContext.getSystemService(UiModeManager.class);
         mKeyguardViewMediator = getComponent(KeyguardViewMediator.class);
         mNavigationBarSystemUiVisibility = mNavigationBarController.createSystemUiVisibility();
@@ -5690,5 +5701,13 @@ public class StatusBar extends SystemUI implements DemoMode,
             }
         }
         mShowNavBar = showNavBar;
+    }
+
+    private void updateNavbarStyle() {
+        mNavbarStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.NAVBAR_STYLE, 0, UserHandle.USER_CURRENT);
+        mUiOffloadThread.submit(() -> {
+            NavbarStyles.setNavbarStyle(mOverlayManager, mLockscreenUserManager.getCurrentUserId(), mNavbarStyle);
+        });
     }
 }

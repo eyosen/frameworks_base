@@ -7184,6 +7184,12 @@ public final class Settings {
         /** @hide */
         public static final Validator FOD_GESTURE_VALIDATOR = BOOLEAN_VALIDATOR;
 
+        /**
+         * Switch between different navbar styles
+         * @hide
+         */
+        public static final String NAVBAR_STYLE = "navbar_style";
+
         /***************************
          * AICP System Settings end
          ***************************/
