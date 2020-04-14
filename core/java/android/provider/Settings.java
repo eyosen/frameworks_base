@@ -7190,6 +7190,14 @@ public final class Settings {
          */
         public static final String NAVBAR_STYLE = "navbar_style";
 
+        /**
+         * Whether to show IME space when navbar pill is hidden
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_IME_SPACE = "navigation_bar_ime_space";
+        /** @hide */
+        private static final Validator NAVIGATION_BAR_IME_SPACE_VALIDATOR = BOOLEAN_VALIDATOR;
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -7470,6 +7478,7 @@ public final class Settings {
             QS_DATAUSAGE,
             AUTO_BRIGHTNESS_MIN_VALUE,
             STATUS_BAR_NOTIF_COUNT,
+            NAVIGATION_BAR_IME_SPACE,
             // AICP Settings end
         };
 
@@ -7829,6 +7838,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(AUTO_BRIGHTNESS_MIN_VALUE);
             PRIVATE_SETTINGS.add(STATUS_BAR_NOTIF_COUNT);
             PRIVATE_SETTINGS.add(FOD_GESTURE);
+            PRIVATE_SETTINGS.add(NAVIGATION_BAR_IME_SPACE);
             // AICP Settings end
         }
 
@@ -8176,6 +8186,7 @@ public final class Settings {
             VALIDATORS.put(AUTO_BRIGHTNESS_MIN_VALUE, AUTO_BRIGHTNESS_MIN_VALUE_VALIDATOR);
             VALIDATORS.put(STATUS_BAR_NOTIF_COUNT, STATUS_BAR_NOTIF_COUNT_VALIDATOR);
             VALIDATORS.put(FOD_GESTURE, FOD_GESTURE_VALIDATOR);
+            VALIDATORS.put(NAVIGATION_BAR_IME_SPACE, NAVIGATION_BAR_IME_SPACE_VALIDATOR);
             // AICP Settings end
         }
 
