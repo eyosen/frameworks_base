@@ -7198,6 +7198,24 @@ public final class Settings {
         /** @hide */
         private static final Validator NAVIGATION_BAR_IME_SPACE_VALIDATOR = BOOLEAN_VALIDATOR;
 
+        /**
+         * Indicates whether we should only show the app lock view when the device is woken up
+         * Or always.
+         * @hide
+         */
+        public static final String APP_LOCK_SHOW_ONLY_ON_WAKE = "app_lock_show_only_on_wake";
+        /** @hide */
+        private static final Validator APP_LOCK_SHOW_ONLY_ON_WAKE_VALIDATOR = BOOLEAN_VALIDATOR;
+
+        /**
+         * Indicates whether we should only show the app lock view when the device is woken up
+         * Or always.
+         * @hide
+         */
+        public static final String APP_LOCK_HIDE_NOTIFICATIONS = "app_lock_hide_notifications";
+        /** @hide */
+        private static final Validator APP_LOCK_HIDE_NOTIFICATIONS_VALIDATOR = BOOLEAN_VALIDATOR;
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -7479,6 +7497,8 @@ public final class Settings {
             AUTO_BRIGHTNESS_MIN_VALUE,
             STATUS_BAR_NOTIF_COUNT,
             NAVIGATION_BAR_IME_SPACE,
+            APP_LOCK_SHOW_ONLY_ON_WAKE,
+            APP_LOCK_HIDE_NOTIFICATIONS,
             // AICP Settings end
         };
 
@@ -7839,6 +7859,8 @@ public final class Settings {
             PRIVATE_SETTINGS.add(STATUS_BAR_NOTIF_COUNT);
             PRIVATE_SETTINGS.add(FOD_GESTURE);
             PRIVATE_SETTINGS.add(NAVIGATION_BAR_IME_SPACE);
+            PRIVATE_SETTINGS.add(APP_LOCK_SHOW_ONLY_ON_WAKE);
+            PRIVATE_SETTINGS.add(APP_LOCK_HIDE_NOTIFICATIONS);
             // AICP Settings end
         }
 
@@ -8187,6 +8209,8 @@ public final class Settings {
             VALIDATORS.put(STATUS_BAR_NOTIF_COUNT, STATUS_BAR_NOTIF_COUNT_VALIDATOR);
             VALIDATORS.put(FOD_GESTURE, FOD_GESTURE_VALIDATOR);
             VALIDATORS.put(NAVIGATION_BAR_IME_SPACE, NAVIGATION_BAR_IME_SPACE_VALIDATOR);
+            VALIDATORS.put(APP_LOCK_SHOW_ONLY_ON_WAKE, APP_LOCK_SHOW_ONLY_ON_WAKE_VALIDATOR);
+            VALIDATORS.put(APP_LOCK_HIDE_NOTIFICATIONS, APP_LOCK_HIDE_NOTIFICATIONS_VALIDATOR);
             // AICP Settings end
         }
 

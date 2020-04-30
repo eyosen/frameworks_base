@@ -318,4 +318,9 @@
 
     <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
     <string name="custom_hint">Swipe from icon to launch</string>
+
+    <!-- App lock -->
+    <string name="applock_locked">&#160;is Locked.</string>
+    <string name="applock_fingerprint">&#160;or your fingerprint to unlock.</string>
+    <string name="applock_locked_notification">App is locked</string>
 </resources>
