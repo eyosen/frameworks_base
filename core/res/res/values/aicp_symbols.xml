@@ -238,4 +238,7 @@
 
   <!-- FOD icon dimming -->
   <java-symbol type="bool" name="config_targetUsesInKernelDimming" />
+
+  <!-- Pocket Service -->
+  <java-symbol type="string" name="config_pocketJudgeVendorSensorName" />
 </resources>
