@@ -7130,6 +7130,13 @@ public final class Settings {
          */
         public static final String VOLUME_ANSWER_CALL = "volume_answer_call";
 
+        /**
+         * Custom vibration pattern
+         * format: ms,ms,ms each a range from 0 to 1000 ms
+         * @hide
+         */
+        public static final String CUSTOM_RINGTONE_VIBRATION_PATTERN = "custom_ringtone_vibration_pattern";
+
         /***************************
          * AICP System Settings end
          ***************************/
