@@ -7260,6 +7260,12 @@ public final class Settings {
          */
         public static final String PULSE_SMOOTHING_ENABLED = "pulse_smoothing_enabled";
 
+        /**
+         * A2DP codec priority
+         * @hide
+         */
+        public static final String A2DP_SOURCE_CODEC_PRIORITY = "a2dp_source_codec_priority";
+
         /***************************
          * AICP System Settings end
          ***************************/
