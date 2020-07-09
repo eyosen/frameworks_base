@@ -7281,6 +7281,15 @@ public final class Settings {
          */
         public static final String SBC_HD_PRIORITY = "sbc_hd_priority";
 
+        /**
+         * Screen off fod
+         * @hide
+         */
+        public static final String FOD_GESTURE = "fod_gesture";
+
+        /** @hide */
+        public static final Validator FOD_GESTURE_VALIDATOR = BOOLEAN_VALIDATOR;
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -7921,6 +7930,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(SHOW_VOWIFI_ICON);
             PRIVATE_SETTINGS.add(AUTO_BRIGHTNESS_MIN_VALUE);
             PRIVATE_SETTINGS.add(STATUS_BAR_NOTIF_COUNT);
+            PRIVATE_SETTINGS.add(FOD_GESTURE);
             // AICP Settings end
         }
 
@@ -8269,6 +8279,7 @@ public final class Settings {
             VALIDATORS.put(SHOW_VOWIFI_ICON, SHOW_VOWIFI_ICON_VALIDATOR);
             VALIDATORS.put(AUTO_BRIGHTNESS_MIN_VALUE, AUTO_BRIGHTNESS_MIN_VALUE_VALIDATOR);
             VALIDATORS.put(STATUS_BAR_NOTIF_COUNT, STATUS_BAR_NOTIF_COUNT_VALIDATOR);
+            VALIDATORS.put(FOD_GESTURE, FOD_GESTURE_VALIDATOR);
             // AICP Settings end
         }
 
