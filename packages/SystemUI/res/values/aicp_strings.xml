@@ -340,4 +340,7 @@
 
     <!-- Binary clock -->
     <string name="clock_title_binary" translatable="false">Binary</string>
+
+    <!-- Oneplus Numbers clock -->
+    <string name="clock_title_oneplus_numbers" translatable="false">OnePlus Numbers</string>
 </resources>
