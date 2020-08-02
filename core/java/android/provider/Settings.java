@@ -12752,6 +12752,15 @@ public final class Settings {
         public static final Validator TETHERING_ALLOW_VPN_UPSTREAMS_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
+         * Pulse ambient music visualizer
+         * @hide
+         */
+        public static final String AMBIENT_PULSE_ENABLED = "ambient_pulse_enabled";
+        /** @hide */
+        private static final Validator AMBIENT_PULSE_ENABLED_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+        /**
          * Pulse lockscreen music visualizer
          * @hide
          */
@@ -12917,6 +12926,7 @@ public final class Settings {
             STATUSBAR_CLOCK_DATE_FORMAT,
             FP_SWIPE_TO_DISMISS_NOTIFICATIONS,
             STATUS_BAR_BATTERY_STYLE,
+            AMBIENT_PULSE_ENABLED,
         };
 
         /**
@@ -13134,6 +13144,7 @@ public final class Settings {
             VALIDATORS.put(STATUS_BAR_BATTERY_STYLE, STATUS_BAR_BATTERY_STYLE_VALIDATOR);
             VALIDATORS.put(KILL_APP_LONGPRESS_BACK, KILL_APP_LONGPRESS_BACK_VALIDATOR);
             VALIDATORS.put(TETHERING_ALLOW_VPN_UPSTREAMS, TETHERING_ALLOW_VPN_UPSTREAMS_VALIDATOR);
+            VALIDATORS.put(AMBIENT_PULSE_ENABLED, AMBIENT_PULSE_ENABLED_VALIDATOR);
         }
 
         /**
