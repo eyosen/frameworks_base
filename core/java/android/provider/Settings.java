@@ -12751,6 +12751,12 @@ public final class Settings {
         /** @hide */
         public static final Validator TETHERING_ALLOW_VPN_UPSTREAMS_VALIDATOR = BOOLEAN_VALIDATOR;
 
+        /**
+         * Pulse lockscreen music visualizer
+         * @hide
+         */
+        public static final String LOCKSCREEN_PULSE_ENABLED = "lockscreen_pulse_enabled";
+
         /*****************************
          * AICP Secure Settings end
          *****************************/
