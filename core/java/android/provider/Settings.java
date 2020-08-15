@@ -7106,10 +7106,10 @@ public final class Settings {
         public static final String NOTIFICATION_BG_ALPHA = "notification_bg_alpha";
 
         /**
-         * Toggle for clipboard access toast.
+         * Clipboard access info
          * @hide
          */
-        public static final String SHOW_CLIPBOARD_TOAST = "show_clipboard_toast";
+        public static final String CLIPBOARD_TOAST_INFO = "clipboard_toast_info";
 
         /***************************
          * AICP System Settings end
@@ -7373,7 +7373,7 @@ public final class Settings {
             AICP_SETTINGS_VALIDATORS.put(STATUS_BAR_SHOW_TICKER, BOOLEAN_VALIDATOR);
             AICP_SETTINGS_VALIDATORS.put(STATUS_BAR_TICKER_ANIMATION_MODE, ANY_INTEGER_VALIDATOR);
             AICP_SETTINGS_VALIDATORS.put(STATUS_BAR_TICKER_TICK_DURATION, ANY_INTEGER_VALIDATOR);
-            AICP_SETTINGS_VALIDATORS.put(SHOW_CLIPBOARD_TOAST, BOOLEAN_VALIDATOR);
+            AICP_SETTINGS_VALIDATORS.put(CLIPBOARD_TOAST_INFO, ANY_INTEGER_VALIDATOR);
         }
 
         /**
