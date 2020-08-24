@@ -603,6 +603,11 @@ public class FODCircleView extends ImageView implements ConfigurationListener, T
             return;
         }
 
+        if (!mCanUnlockWithFp){
+            // Ignore when unlocking with fp is not possible
+            return;
+        }
+
         mIsAuthenticated = false;
 
         updatePosition();
