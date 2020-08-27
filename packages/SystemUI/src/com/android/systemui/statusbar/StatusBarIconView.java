@@ -444,10 +444,6 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
         return getIcon(getContext(), notifContext, icon);
     }
 
-    public static Drawable getIcon(Context context, StatusBarIcon icon) {
-        return getIcon(context, context, icon);
-    }
-
     /**
      * Returns the right icon to use for this item
      *
