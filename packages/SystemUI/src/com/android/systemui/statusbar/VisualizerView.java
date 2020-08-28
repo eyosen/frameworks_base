@@ -27,6 +27,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.audiofx.Visualizer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.UserHandle;
 import android.provider.Settings;
@@ -35,8 +36,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.android.internal.graphics.palette.Palette;
-import com.android.systemui.Dependency;
-import com.android.systemui.UiOffloadThread;
 
 public class VisualizerView extends View
         implements Palette.PaletteAsyncListener {
@@ -69,8 +68,6 @@ public class VisualizerView extends View
     private int mCustomColor;
     private Bitmap mCurrentBitmap;
 
-    private final UiOffloadThread mUiOffloadThread;
-
     private Visualizer.OnDataCaptureListener mVisualizerListener =
             new Visualizer.OnDataCaptureListener() {
         byte rfk, ifk;
@@ -97,9 +94,13 @@ public class VisualizerView extends View
         }
     };
 
-    public void dolink() {
-        mUiOffloadThread.submit(() -> {
-            if (mVisualizer != null) return;
+    private final Runnable mLinkVisualizer = new Runnable() {
+        @Override
+        public void run() {
+            if (DEBUG) {
+                Log.w(TAG, "+++ mLinkVisualizer run()");
+            }
+
             try {
                 mVisualizer = new Visualizer(0);
             } catch (Exception e) {
@@ -112,8 +113,12 @@ public class VisualizerView extends View
             mVisualizer.setDataCaptureListener(mVisualizerListener,Visualizer.getMaxCaptureRate(),
                     false, true);
             mVisualizer.setEnabled(true);
-        });
-    }
+
+            if (DEBUG) {
+                Log.w(TAG, "--- mLinkVisualizer run()");
+            }
+        }
+    };
 
     private void unlink() {
         if (DEBUG) {
@@ -163,8 +168,6 @@ public class VisualizerView extends View
                 }
             });
         }
-
-        mUiOffloadThread = Dependency.get(UiOffloadThread.class);
     }
 
     private void updateViewVisibility() {
@@ -348,7 +351,7 @@ public class VisualizerView extends View
                 && mVisualizerEnabled && !mOccluded) {
             if (!mDisplaying) {
                 mDisplaying = true;
-                dolink();
+                AsyncTask.execute(mLinkVisualizer);
                 animate()
                         .alpha(1f)
                         .withEndAction(null)
