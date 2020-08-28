@@ -121,7 +121,7 @@ import java.util.List;
  *
  * Methods ending in "H" must be called on the (ui) handler.
  */
-public class VolumeDialogImpl implements VolumeDialog,
+public class VolumeDialogImpl implements VolumeDialog, TunerService.Tunable,
         ConfigurationController.ConfigurationListener, LocalMediaManager.DeviceCallback {
     private static final String TAG = Util.logTag(VolumeDialogImpl.class);
 
@@ -196,7 +196,6 @@ public class VolumeDialogImpl implements VolumeDialog,
 
     // Volume panel placement left or right
     private boolean mVolumePanelOnLeft;
-	private boolean mLeftVolumeRocker;
 
     private boolean isMediaShowing = true;
     private boolean isRingerShowing = false;
@@ -264,7 +263,7 @@ public class VolumeDialogImpl implements VolumeDialog,
 
         final TunerService tunerService = Dependency.get(TunerService.class); //DONT KNOW
 
-        mLeftVolumeRocker = mContext.getResources().getBoolean(com.android.internal.R.bool.config_audioPanelOnLeftSide);
+        tunerService.addTunable(this, VOLUME_PANEL_ON_LEFT);
         mHasAlertSlider = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_hasAlertSlider);
         mVibrateOnSlider = mContext.getResources().getBoolean(R.bool.config_vibrateOnIconAnimation);
@@ -489,7 +488,7 @@ public class VolumeDialogImpl implements VolumeDialog,
     public void onTuningChanged(String key, String newValue) {
         switch (key) {
             case VOLUME_PANEL_ON_LEFT:
-                final boolean volumePanelOnLeft = TunerService.parseIntegerSwitch(newValue, isAudioPanelOnLeftSide());
+                final boolean volumePanelOnLeft = TunerService.parseIntegerSwitch(newValue, isAudioPanelOnLeftByDefault());
                 if (mVolumePanelOnLeft != volumePanelOnLeft) {
                     mVolumePanelOnLeft = volumePanelOnLeft;
                     mHandler.post(() -> {
@@ -503,9 +502,9 @@ public class VolumeDialogImpl implements VolumeDialog,
         }
     }
 
-    /*private boolean isAudioPanelOnLeftSide() {
+    private boolean isAudioPanelOnLeftByDefault() {
         return mContext.getResources().getBoolean(com.android.internal.R.bool.config_audioPanelOnLeftSide);
-    }*/
+    }
 
     protected ViewGroup getDialogView() {
         return mDialogView;
@@ -2122,7 +2121,7 @@ public class VolumeDialogImpl implements VolumeDialog,
     }
 
     private boolean isAudioPanelOnLeftSide() {
-        return mLeftVolumeRocker;
+        return mVolumePanelOnLeft;
     }
 
     private static class VolumeRow {
