@@ -120,4 +120,6 @@
     <dimen name="binary_clock_stroke_width">2dp</dimen>
     <dimen name="binary_clock_width">100dp</dimen>
     <dimen name="binary_clock_height">100dp</dimen>
+
+    <dimen name="volume_row_app_icon_padding">8dp</dimen>
 </resources>
