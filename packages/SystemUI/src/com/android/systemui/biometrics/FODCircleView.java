@@ -99,6 +99,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener, T
         new int[]{227, 14},
         new int[]{255, 0}
     };
+
     private final int mPositionX;
     private final int mPositionY;
     private final int mSize;
@@ -119,6 +120,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener, T
     private int mDreamingOffsetY;
 
     private boolean mFading;
+
     private boolean mIsBouncer;
     private boolean mIsDreaming;
     private boolean mIsCircleShowing;
@@ -613,14 +615,16 @@ public class FODCircleView extends ImageView implements ConfigurationListener, T
 
         updatePosition();
 
-        Dependency.get(TunerService.class).addTunable(this, SCREEN_BRIGHTNESS);
-        setVisibility(View.VISIBLE);
+        dispatchShow();
         animate().withStartAction(() -> mFading = true)
                 .alpha(mIsDreaming ? 0.5f : 1.0f)
                 .setDuration(FADE_ANIM_DURATION)
-                .withEndAction(() -> mFading = false)
+                .withEndAction(() -> {
+                    mFading = false;
+                    Dependency.get(TunerService.class).addTunable(this, SCREEN_BRIGHTNESS);
+                    setVisibility(View.VISIBLE);
+                })
                 .start();
-        dispatchShow();
     }
 
     public void hide() {
