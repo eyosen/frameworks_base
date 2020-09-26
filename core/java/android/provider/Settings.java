@@ -7159,9 +7159,8 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_NOTIF_COUNT = "status_bar_notif_count";
-
         /** @hide */
-        public static final Validator STATUS_BAR_NOTIF_COUNT_VALIDATOR = BOOLEAN_VALIDATOR;
+        private static final Validator STATUS_BAR_NOTIF_COUNT_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
          * A2DP codec priority
@@ -7180,9 +7179,8 @@ public final class Settings {
          * @hide
          */
         public static final String FOD_GESTURE = "fod_gesture";
-
         /** @hide */
-        public static final Validator FOD_GESTURE_VALIDATOR = BOOLEAN_VALIDATOR;
+        private static final Validator FOD_GESTURE_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
          * Switch between different navbar styles
