@@ -82,5 +82,6 @@ public class GlobalSettings {
         Settings.Global.UIDS_ALLOWED_ON_RESTRICTED_NETWORKS,
         Settings.Global.RINGTONE_FOCUS_MODE_V2,
         Settings.Global.WIFI_OFF_TIMEOUT,
+        Settings.Global.BLUETOOTH_OFF_TIMEOUT,
     };
 }
