@@ -5204,6 +5204,33 @@ public final class Settings {
         @SuppressLint("NoSettingsProvider")
         public static final String LOCKSCREEN_BATTERY_INFO = "lockscreen_battery_info";
 
+        /***************************
+         * AICP System Settings end
+         ***************************/
+
+        /**
+         * SettingsBackupAgent will combine its list with this so we dont need
+         * to add new things into SettingsProvider SystemSettings
+         * @hide
+         */
+        public static final String[] AICP_SYSTEM_SETTINGS_TO_BACKUP = {
+            LOCKSCREEN_BATTERY_INFO,
+        };
+
+        /**
+         * SettingsBackupAgent will combine its list with this so we dont need
+         * to add new things into SettingsProvider SystemSettingsValidators
+         * we cant use Validators interface so use a simple integer mapping
+         * BOOLEAN_VALIDATOR == 0
+         * ANY_INTEGER_VALIDATOR == 1
+         * ANY_STRING_VALIDATOR == 2
+         * @hide
+         */
+        public static final Map<String, Integer> AICP_SYSTEM_SETTINGS_VALIDATORS = new ArrayMap<>();
+        static {
+            AICP_SYSTEM_SETTINGS_VALIDATORS.put(LOCKSCREEN_BATTERY_INFO, 1);
+        }
+
         /**
          * IMPORTANT: If you add a new public settings you also have to add it to
          * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
