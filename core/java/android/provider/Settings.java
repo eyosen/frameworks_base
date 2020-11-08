@@ -6256,6 +6256,13 @@ public final class Settings {
          */
         public static final String AUTHORIZATION_RIPPLE_EFFECT = "authorization_ripple_effect";
 
+        /**
+         * Whether to pulse ambient on new music tracks
+         *
+         * @hide
+         */
+        public static final String PULSE_ON_NEW_TRACKS = "pulse_on_new_tracks";
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -6536,6 +6543,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(CAMERA_SLEEP_ON_RELEASE);
             PRIVATE_SETTINGS.add(CAMERA_LAUNCH);
             PRIVATE_SETTINGS.add(AUTHORIZATION_RIPPLE_EFFECT);
+            PRIVATE_SETTINGS.add(PULSE_ON_NEW_TRACKS);
         }
 
         /**
