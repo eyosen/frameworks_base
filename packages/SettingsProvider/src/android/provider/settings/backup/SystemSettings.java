@@ -299,5 +299,6 @@ public class SystemSettings {
         Settings.System.ADAPTIVE_PLAYBACK_ENABLED,
         Settings.System.ADAPTIVE_PLAYBACK_TIMEOUT,
         Settings.System.COMBINED_STATUS_BAR_SIGNAL_ICONS,
+        Settings.System.LOCKSCREEN_BATTERY_INFO_TEMP_UNIT,
     };
 }
