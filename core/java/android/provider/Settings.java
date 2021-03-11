@@ -6629,6 +6629,16 @@ public final class Settings {
         */
         public static final String LOCKSCREEN_ALBUM_ART_FILTER = "lockscreen_album_art_filter";
 
+        /**
+         * Network traffic mode
+         * 0: both directions (default)
+         * 1: upload direction
+         * 2: download direction
+	       * @hide
+         */
+        public static final String NETWORK_TRAFFIC_INDICATOR_MODE =
+                "network_traffic_indicator_mode";
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -6968,6 +6978,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(OMNI_LOCKSCREEN_MEDIA_BLUR);
             PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_METADATA);
             PRIVATE_SETTINGS.add(LOCKSCREEN_ALBUM_ART_FILTER);
+            PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_INDICATOR_MODE);
         }
 
         /**
