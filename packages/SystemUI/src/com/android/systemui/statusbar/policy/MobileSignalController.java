@@ -1063,6 +1063,10 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
                 mCurrentState.iconGroup = TelephonyIcons.DATA_DISABLED;
             }
         }
+
+        if (mCurrentState.enabled && !mCurrentState.connected)
+            mCurrentState.iconGroup = TelephonyIcons.DATA_DISABLED;
+
         if (isEmergencyOnly() != mCurrentState.isEmergency) {
             mCurrentState.isEmergency = isEmergencyOnly();
             mNetworkController.recalculateEmergency();
