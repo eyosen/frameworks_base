@@ -349,6 +349,7 @@ import com.android.internal.util.FastPrintWriter;
 import com.android.internal.util.FrameworkStatsLog;
 import com.android.internal.util.MemInfoReader;
 import com.android.internal.util.Preconditions;
+import com.android.internal.util.aicp.GamingModeHelper;
 import com.android.internal.util.function.DecFunction;
 import com.android.internal.util.function.HeptFunction;
 import com.android.internal.util.function.HexFunction;
@@ -1781,6 +1782,9 @@ public class ActivityManagerService extends IActivityManager.Stub
                     synchronized (ActivityManagerService.this) {
                         ((ContentProviderRecord) msg.obj).onProviderPublishStatusLocked(false);
                     }
+                } break;
+                case GamingModeHelper.MSG_SEND_GAMING_MODE_BROADCAST: {
+                    mContext.sendBroadcastAsUser((Intent) msg.obj, UserHandle.CURRENT_OR_SELF);
                 } break;
             }
         }
@@ -7530,6 +7534,7 @@ public class ActivityManagerService extends IActivityManager.Stub
             mLocalDeviceIdleController =
                     LocalServices.getService(DeviceIdleInternal.class);
             mActivityTaskManager.onSystemReady();
+            mActivityTaskManager.mGamingModeHelper = new GamingModeHelper(mContext, mHandler);
             // Make sure we have the current profile info, since it is needed for security checks.
             mUserController.onSystemReady();
             mAppOpsService.systemReady();

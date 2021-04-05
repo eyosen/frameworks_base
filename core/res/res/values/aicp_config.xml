@@ -242,4 +242,7 @@
 
     <!-- Keyboard Buttons Brightness control -->
     <dimen name="config_keyboardBrightnessSettingDefaultFloat">1.0</dimen>
+
+    <!-- Wheter device supports an gaming mode profiles -->
+    <bool name="config_gamingmode_performance">false</bool>
 </resources>

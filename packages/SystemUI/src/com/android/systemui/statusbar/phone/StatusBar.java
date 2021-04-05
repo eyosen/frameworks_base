@@ -4827,6 +4827,12 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_ALBUM_ART_FILTER),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.GAMING_MODE_ACTIVE),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -5269,6 +5275,12 @@ public class StatusBar extends SystemUI implements DemoMode,
                 UserHandle.USER_CURRENT) != 0;
         int maxKeyguardNotifConfig = Settings.System.getIntForUser(mContext.getContentResolver(),
                  Settings.System.LOCKSCREEN_MAX_NOTIF_CONFIG, 3, UserHandle.USER_CURRENT);
+        boolean isGamingModeActive = Settings.System.getIntForUser(
+                mContext.getContentResolver(), Settings.System.GAMING_MODE_ACTIVE, 0,
+                UserHandle.USER_CURRENT) != 0;
+        boolean disableNotificationAlertInGamingMode = Settings.System.getIntForUser(
+                mContext.getContentResolver(), Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT, 0,
+                UserHandle.USER_CURRENT) != 0;
         if (mNotificationPanelViewController != null) {
             mNotificationPanelViewController.setDoubleTapToSleep(doubleTapToSleepEnabled);
             mNotificationPanelViewController.setLockscreenDoubleTapToSleep(lsDoubleTapToSleepEnabled);
@@ -5285,6 +5297,10 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
         if (mQuickStatusBarHeader != null) {
             mQuickStatusBarHeader.updateSettings();
+        }
+        if (mPresenter != null) {
+            mPresenter.setGamingModeActive(isGamingModeActive);
+            mPresenter.setGamingModeNoAlert(disableNotificationAlertInGamingMode);
         }
         setScreenBrightnessMode();
         updateNavigationBar(false);

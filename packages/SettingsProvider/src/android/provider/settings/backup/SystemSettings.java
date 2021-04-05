@@ -305,5 +305,11 @@ public class SystemSettings {
         Settings.System.LOCKSCREEN_MEDIA_METADATA,
         Settings.System.LOCKSCREEN_ALBUM_ART_FILTER,
         Settings.System.NETWORK_TRAFFIC_INDICATOR_MODE,
+        Settings.System.GAMING_MODE_ACTIVE,
+        Settings.System.GAMING_MODE_ENABLED,
+        Settings.System.GAMING_MODE_APP_LIST,
+        Settings.System.GAMING_MODE_DISABLE_ADB,
+        Settings.System.GAMING_MODE_DYNAMIC_ADD,
+        Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT,
     };
 }
