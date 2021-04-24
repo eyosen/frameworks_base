@@ -7099,6 +7099,12 @@ public final class Settings {
         public static final String STATUS_BAR_TICKER_TICK_DURATION =
                 "status_bar_ticker_tick_duration";
 
+        /**
+         * Whether to change the transparency of the notifications
+         * @hide
+         */
+        public static final String NOTIFICATION_BG_ALPHA = "notification_bg_alpha";
+
         /***************************
          * AICP System Settings end
          ***************************/
