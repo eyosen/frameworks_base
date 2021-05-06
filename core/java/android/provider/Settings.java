@@ -7111,6 +7111,12 @@ public final class Settings {
          */
         public static final String CLIPBOARD_TOAST_INFO = "clipboard_toast_info";
 
+        /**
+         * Level of lockscreen background blur
+         * @hide
+         */
+        public static final String LOCKSCREEN_BLUR = "lockscreen_blur";
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -7374,6 +7380,7 @@ public final class Settings {
             AICP_SETTINGS_VALIDATORS.put(STATUS_BAR_TICKER_ANIMATION_MODE, ANY_INTEGER_VALIDATOR);
             AICP_SETTINGS_VALIDATORS.put(STATUS_BAR_TICKER_TICK_DURATION, ANY_INTEGER_VALIDATOR);
             AICP_SETTINGS_VALIDATORS.put(CLIPBOARD_TOAST_INFO, ANY_INTEGER_VALIDATOR);
+            AICP_SETTINGS_VALIDATORS.put(LOCKSCREEN_BLUR, ANY_INTEGER_VALIDATOR);
         }
 
         /**
