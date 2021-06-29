@@ -15,4 +15,7 @@
 -->
 <resources>
 
+  <!-- Path to fast charging status file to detect whether an oem fast charger is active -->
+  <java-symbol type="array" name="config_oemFastChargerStatusPaths" />
+
 </resources>

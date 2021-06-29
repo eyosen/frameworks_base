@@ -15,4 +15,8 @@
 -->
 <resources>
 
+  <!-- Paths to fast charging status file to detect whether an oem fast charger is active -->
+  <string-array name="config_oemFastChargerStatusPaths" translatable="false">
+  </string-array>
+
 </resources>
