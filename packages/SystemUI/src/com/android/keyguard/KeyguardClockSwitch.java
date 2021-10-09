@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
@@ -91,6 +92,17 @@ public class KeyguardClockSwitch extends RelativeLayout {
 
     public KeyguardClockSwitch(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (mHasVisibleNotifications != null) {
+            boolean landscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
+            boolean useLargeClock = !mHasVisibleNotifications && !landscape;
+            animateClockChange(useLargeClock);
+        }
     }
 
     /**
@@ -277,11 +289,14 @@ public class KeyguardClockSwitch extends RelativeLayout {
         if (mDisplayedClockSize != null && clockSize == mDisplayedClockSize) {
             return false;
         }
+        boolean landscape = getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
+        boolean useLargeClock = !landscape;
 
         // let's make sure clock is changed only after all views were laid out so we can
         // translate them properly
         if (mChildrenAreLaidOut) {
-            animateClockChange(clockSize == LARGE);
+            animateClockChange(clockSize == LARGE && useLargeClock);
         }
 
         mDisplayedClockSize = clockSize;
