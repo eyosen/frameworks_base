@@ -530,6 +530,10 @@ public class AuthController extends SystemUI implements CommandQueue.Callbacks,
                             .physical_fingerprint_sensor_center_screen_location_x);
         } catch (Resources.NotFoundException e) {
         }
+        if (mFingerprintManager != null && mFingerprintManager.isPowerbuttonFps()) {
+            xLocation = DisplayUtils.getWidth(mContext);
+        }
+
         int yLocation = mContext.getResources().getDimensionPixelSize(
                 com.android.systemui.R.dimen.physical_fingerprint_sensor_center_screen_location_y);
         mFingerprintLocation = new PointF(
