@@ -298,5 +298,6 @@ public class SystemSettings {
         Settings.System.FLASHLIGHT_ON_CALL_RATE,
         Settings.System.ADAPTIVE_PLAYBACK_ENABLED,
         Settings.System.ADAPTIVE_PLAYBACK_TIMEOUT,
+        Settings.System.COMBINED_STATUS_BAR_SIGNAL_ICONS,
     };
 }
