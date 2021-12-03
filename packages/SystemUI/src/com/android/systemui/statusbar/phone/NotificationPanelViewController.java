@@ -344,6 +344,8 @@ public class NotificationPanelViewController extends PanelViewController {
     private int mStatusBarHeaderHeight;
     private int mOneFingerQuickSettingsIntercept;
     private int mQsSmartPullDown;
+    private boolean mBlockedGesturalNavigation;
+
 
     /**
      * If set, the ongoing touch gesture might both trigger the expansion in {@link PanelView} and
@@ -4101,8 +4103,13 @@ public class NotificationPanelViewController extends PanelViewController {
         }
         mSysUiState.setFlag(SYSUI_STATE_NOTIFICATION_PANEL_EXPANDED,
                 isFullyExpanded() && !isInSettings())
-                .setFlag(SYSUI_STATE_QUICK_SETTINGS_EXPANDED, isInSettings())
+                .setFlag(SYSUI_STATE_QUICK_SETTINGS_EXPANDED,
+                        mBlockedGesturalNavigation || isInSettings())
                 .commitUpdate(mDisplayId);
+    }
+
+    public void setBlockedGesturalNavigation(boolean blocked) {
+        mBlockedGesturalNavigation = blocked;
     }
 
     private class OnHeightChangedListener implements ExpandableView.OnHeightChangedListener {
