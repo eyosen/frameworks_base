@@ -22,6 +22,7 @@ import static android.provider.Settings.Secure.STATUSBAR_CLOCK_DATE_STYLE;
 import static android.provider.Settings.Secure.STATUSBAR_CLOCK_DATE_FORMAT;
 import static android.provider.Settings.Secure.STATUSBAR_CLOCK_DATE_POSITION;
 import static android.provider.Settings.Secure.STATUSBAR_CLOCK_SECONDS;
+import static android.provider.Settings.Secure.QS_EXPANDED_HEADER_CLOCK;
 
 import android.app.StatusBarManager;
 import android.content.BroadcastReceiver;
@@ -114,6 +115,9 @@ public class Clock extends TextView implements DemoMode, Tunable, CommandQueue.C
     public static final int STYLE_DATE_LEFT = 0;
     public static final int STYLE_DATE_RIGHT = 1;
 
+    public static final int QS_EXPANDED_HEADER_CLOCK_GONE = 1;
+    public static final int QS_EXPANDED_HEADER_CLOCK_SHOW = 0;
+
     private int mClockDateDisplay = CLOCK_DATE_DISPLAY_GONE;
     private int mClockDateStyle = CLOCK_DATE_STYLE_REGULAR;
     private String mClockDateFormat = null;
@@ -123,6 +127,7 @@ public class Clock extends TextView implements DemoMode, Tunable, CommandQueue.C
     private boolean mShowSeconds;
     private Handler mSecondsHandler;
     private boolean mQsHeader;
+    private int mQSExpandedHeaderClock = QS_EXPANDED_HEADER_CLOCK_SHOW;
 
     /**
      * Whether we should use colors that adapt based on wallpaper/the scrim behind quick settings
@@ -221,7 +226,8 @@ public class Clock extends TextView implements DemoMode, Tunable, CommandQueue.C
                     Dependency.get(Dependency.TIME_TICK_HANDLER), UserHandle.ALL);
             Dependency.get(TunerService.class).addTunable(this, STATUSBAR_CLOCK_SECONDS,
                     STATUSBAR_CLOCK_AM_PM_STYLE, STATUSBAR_CLOCK_DATE_DISPLAY,
-                    STATUSBAR_CLOCK_DATE_STYLE, STATUSBAR_CLOCK_DATE_FORMAT, STATUSBAR_CLOCK_DATE_POSITION);
+                    STATUSBAR_CLOCK_DATE_STYLE, STATUSBAR_CLOCK_DATE_FORMAT, STATUSBAR_CLOCK_DATE_POSITION,
+                    QS_EXPANDED_HEADER_CLOCK);
             mCommandQueue.addCallback(this);
             if (mShowDark) {
                 Dependency.get(DarkIconDispatcher.class).addDarkReceiver(this);
@@ -304,6 +310,11 @@ public class Clock extends TextView implements DemoMode, Tunable, CommandQueue.C
 
     @Override
     public void setVisibility(int visibility) {
+        if (mQsHeader) {
+            super.setVisibility(isHeaderClockHidden() ? View.GONE : View.VISIBLE);
+            return;
+        }
+
         if (visibility == View.VISIBLE && !shouldBeVisible()) {
             return;
         }
@@ -357,7 +368,8 @@ public class Clock extends TextView implements DemoMode, Tunable, CommandQueue.C
                 || STATUSBAR_CLOCK_DATE_DISPLAY.equals(key)
                 || STATUSBAR_CLOCK_DATE_STYLE.equals(key)
                 || STATUSBAR_CLOCK_DATE_FORMAT.equals(key)
-                || STATUSBAR_CLOCK_DATE_POSITION.equals(key)) {
+                || STATUSBAR_CLOCK_DATE_POSITION.equals(key)
+                || QS_EXPANDED_HEADER_CLOCK.equals(key)) {
             updateSettings(key, newValue);
         }
     }
@@ -634,6 +646,13 @@ public class Clock extends TextView implements DemoMode, Tunable, CommandQueue.C
                         : Integer.parseInt(newValue);
                 break;
 
+            case (QS_EXPANDED_HEADER_CLOCK):
+                if (newValue == null) {
+                    newValue = "0"; // don't hide clock
+                }
+                mQSExpandedHeaderClock = Integer.parseInt(newValue);
+                break;
+
             case (STATUSBAR_CLOCK_DATE_STYLE):
                 if (newValue == null) {
                     newValue = "0"; // capital letters
@@ -662,9 +681,12 @@ public class Clock extends TextView implements DemoMode, Tunable, CommandQueue.C
         return shouldBeVisible() && mClockDateDisplay != CLOCK_DATE_DISPLAY_GONE;
     }
 
+    public boolean isHeaderClockHidden() {
+        return mQSExpandedHeaderClock != QS_EXPANDED_HEADER_CLOCK_SHOW;
+    }
+
     public void setQsHeader() {
         mQsHeader = true;
-        setClockVisibleByUser(Integer.parseInt("1") != 0);
         mClockDateDisplay = CLOCK_DATE_DISPLAY_GONE;
     }
 }

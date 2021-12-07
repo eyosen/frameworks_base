@@ -11507,6 +11507,14 @@ public final class Settings {
          */
         public static final String STATUS_BAR_CLOCK = "status_bar_clock";
 
+        /**
+         * Show or hide clock in QS expanded Header
+         * 0 - show (default)
+         * 1 - hide
+         * @hide
+         */
+        public static final String QS_EXPANDED_HEADER_CLOCK = "qs_expanded_header_clock";
+
          /**
          * Show or hide clock
          * 0 - right

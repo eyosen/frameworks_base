@@ -564,6 +564,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         updateDataUsageView();
         updateDataUsageImage();
         updateDateView();
+        updateClockViewVisibility();
     }
 
     private void updateDataUsageView() {
@@ -635,6 +636,11 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mDateView.setVisibility(showDateView ? View.GONE : View.VISIBLE);
     }
 
+    private void updateClockViewVisibility() {
+        boolean hideClockView = mClockView.isHeaderClockHidden();
+        mClockView.setVisibility(hideClockView ? View.GONE : View.VISIBLE);
+    }
+
     public void setExpanded(boolean expanded) {
         if (mExpanded == expanded) return;
         mExpanded = expanded;
@@ -643,6 +649,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         updateEverything();
         updateDataUsageView();
         updateDateView();
+        updateClockViewVisibility();
     }
 
     /**
