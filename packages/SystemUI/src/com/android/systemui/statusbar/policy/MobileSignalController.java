@@ -104,7 +104,7 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
     private final String mNetworkNameDefault;
     private final String mNetworkNameSeparator;
     private final ContentObserver mObserver;
-    private final boolean mProviderModelBehavior;
+    private boolean mProviderModelBehavior;
     private final boolean mProviderModelSetting;
     private final Handler mReceiverHandler;
     private int mImsType = IMS_TYPE_WWAN;
@@ -357,6 +357,9 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
            resolver.registerContentObserver(Settings.System.getUriFor(
                   Settings.System.DATA_DISABLED_ICON),
                   false, this, UserHandle.USER_ALL);
+           resolver.registerContentObserver(Settings.System.getUriFor(
+                  Settings.System.COMBINED_STATUS_BAR_SIGNAL_ICONS),
+                  false, this, UserHandle.USER_ALL);
         }
 
         /*
@@ -374,7 +377,6 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
         mRoamingIconAllowed = Settings.System.getIntForUser(resolver,
                 Settings.System.ROAMING_INDICATOR_ICON, 1,
                 UserHandle.USER_CURRENT) == 1;
-
         mShowLteFourGee = Settings.System.getIntForUser(resolver,
                 Settings.System.SHOW_LTE_FOURGEE, 0,
                 UserHandle.USER_CURRENT) == 1;
@@ -393,12 +395,23 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
         mDataDisabledIcon = Settings.System.getIntForUser(resolver,
                 Settings.System.DATA_DISABLED_ICON, 1,
                 UserHandle.USER_CURRENT) == 1;
+        boolean statusBarSignalIconsCombined = Settings.System.getIntForUser(resolver,
+                Settings.System.COMBINED_STATUS_BAR_SIGNAL_ICONS, 0,
+                UserHandle.USER_CURRENT) != 0;
+        if (mProviderModelBehavior != statusBarSignalIconsCombined) {
+            mProviderModelBehavior = statusBarSignalIconsCombined;
+            restartSystemUI();
+            return;
+        }
 
         mNetworkToIconLookup = mapIconSets(mConfig, mShowLteFourGee);
         updateTelephony();
         notifyListeners();
     }
 
+    private void restartSystemUI() {
+       android.os.Process.killProcess(android.os.Process.myPid());
+    }
 
     public void setConfiguration(Config config) {
         mConfig = config;
