@@ -55,7 +55,7 @@ import kotlin.math.log10
 import kotlin.math.pow
 
 @SysUISingleton
-class CustomThemeOverlayController @Inject constructor(
+class ThemeOverlayControllerAicp @Inject constructor(
     private val context: Context,
     broadcastDispatcher: BroadcastDispatcher,
     @Background bgHandler: Handler,
@@ -187,7 +187,7 @@ class CustomThemeOverlayController @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "CustomThemeOverlayController"
+        private const val TAG = "ThemeOverlayControllerAicp"
 
         private const val PREF_PREFIX = "monet_engine"
         private const val PREF_CUSTOM_COLOR = "${PREF_PREFIX}_custom_color"
