@@ -6689,6 +6689,12 @@ public final class Settings {
          */
         public static final String HEADS_UP_NOTIFICATIONS_THRESHOLD = "heads_up_notifications_threshold";
 
+        /**
+         * Show app volume rows in volume panel
+         * @hide
+         */
+        public static final String SHOW_APP_VOLUME = "show_app_volume";
+
         /***************************
          * AICP System Settings end
          ***************************/
@@ -7035,6 +7041,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(GAMING_MODE_DISABLE_ADB);
             PRIVATE_SETTINGS.add(GAMING_MODE_DYNAMIC_ADD);
             PRIVATE_SETTINGS.add(GAMING_MODE_DISABLE_NOTIFICATION_ALERT);
+            PRIVATE_SETTINGS.add(SHOW_APP_VOLUME);
         }
 
         /**
@@ -18940,6 +18947,13 @@ public final class Settings {
         @SdkConstant(SdkConstant.SdkConstantType.ACTIVITY_INTENT_ACTION)
         public static final String ACTION_MOBILE_DATA =
                 "android.settings.panel.action.MOBILE_DATA";
+
+        /**
+         * @hide
+         */
+        public static final String ACTION_APP_VOLUME =
+                "android.settings.panel.action.APP_VOLUME";
+
      }
 
     /**
