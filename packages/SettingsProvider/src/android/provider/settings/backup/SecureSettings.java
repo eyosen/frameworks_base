@@ -233,5 +233,6 @@ public class SecureSettings {
         Settings.Secure.LOCK_DOTS_VISIBLE,
         Settings.Secure.LOCK_SHOW_ERROR_PATH,
         Settings.Secure.TETHERING_ALLOW_VPN_UPSTREAMS,
+        Settings.Secure.LOCK_QS_DISABLED,
     };
 }
