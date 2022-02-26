@@ -12057,6 +12057,12 @@ public final class Settings {
          */
         public static final String PULSE_AMBIENT_LIGHT_WIDTH = "pulse_ambient_light_width";
 
+        /**
+         * Width of Ambient edge light in px
+         * @hide
+         */
+        public static final String KEYGUARD_TRANSITION_ANIMATIONS = "sysui_keyguard_transition_animations";
+
         /*****************************
          * AICP Secure Settings end
          *****************************/
