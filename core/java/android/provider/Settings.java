@@ -5834,7 +5834,7 @@ public final class Settings {
          * Whether to wake the screen with the camera key, the value is boolean.
          * @hide
          */
-        public static final String CAMERA_WAKE_SCREEN = "assist_wake_screen";
+        public static final String CAMERA_WAKE_SCREEN = "camera_wake_screen";
 
         /**
          * Whether allowing pocket service to register sensors and dispatch informations.
