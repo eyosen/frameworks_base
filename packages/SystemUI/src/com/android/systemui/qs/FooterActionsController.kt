@@ -69,6 +69,12 @@ class FooterActionsController @Inject constructor(
 
     enum class ExpansionState { COLLAPSED, EXPANDED }
 
+    private val QS_FOOTER_SHOW_SETTINGS: String = Settings.Secure.QS_FOOTER_SHOW_SETTINGS
+    private val QS_FOOTER_SHOW_SERVICES: String = Settings.Secure.QS_FOOTER_SHOW_SERVICES
+    private val QS_FOOTER_SHOW_EDIT: String = Settings.Secure.QS_FOOTER_SHOW_EDIT
+    private val QS_FOOTER_SHOW_USER: String = Settings.Secure.QS_FOOTER_SHOW_USER
+    private val QS_FOOTER_SHOW_POWER_MENU: String = Settings.Secure.QS_FOOTER_SHOW_POWER_MENU
+
     private var listening: Boolean = false
 
     var expanded = false
@@ -176,12 +182,7 @@ class FooterActionsController @Inject constructor(
 
     @VisibleForTesting
     public override fun onViewAttached() {
-        if (showPMLiteButton) {
-            powerMenuLite.visibility = View.VISIBLE
-            powerMenuLite.setOnClickListener(onClickListener)
-        } else {
-            powerMenuLite.visibility = View.GONE
-        }
+        powerMenuLite.setOnClickListener(onClickListener)
         settingsButton.setOnClickListener(onClickListener)
         runningServicesButton.setOnClickListener(onClickListener)
         editButton.setOnClickListener(View.OnClickListener { view: View? ->
@@ -190,6 +191,24 @@ class FooterActionsController @Inject constructor(
             }
             activityStarter.postQSRunnableDismissingKeyguard { qsPanelController.showEdit(view) }
         })
+
+        tunerService.addTunable(object : TunerService.Tunable {
+            override fun onTuningChanged(key: String?, newValue: String?) {
+                if (key == QS_FOOTER_SHOW_POWER_MENU) {
+                    showPMLiteButton =
+                            TunerService.parseIntegerSwitch(newValue, true)
+                    powerMenuLite.visibility = if (showPMLiteButton) View.VISIBLE else View.GONE
+                    powerMenuLite.isClickable = showPMLiteButton
+                } else {
+                    mView.updateFooterVisibilities()
+                }
+            }
+        },
+        QS_FOOTER_SHOW_POWER_MENU,
+        QS_FOOTER_SHOW_EDIT,
+        QS_FOOTER_SHOW_USER,
+        QS_FOOTER_SHOW_SERVICES,
+        QS_FOOTER_SHOW_SETTINGS)
 
         updateView()
     }
@@ -200,6 +219,7 @@ class FooterActionsController @Inject constructor(
 
     override fun onViewDetached() {
         setListening(false)
+        tunerService.removeTunable(this)
     }
 
     fun setListening(listening: Boolean) {
@@ -239,5 +259,5 @@ class FooterActionsController @Inject constructor(
         }
     }
 
-    private fun isTunerEnabled() = tunerService.isTunerEnabled
+    private fun isTunerEnabled() = false
 }

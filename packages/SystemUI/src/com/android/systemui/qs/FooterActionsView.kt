@@ -16,6 +16,7 @@
 package com.android.systemui.qs
 
 import android.app.StatusBarManager
+import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.PorterDuff
@@ -26,6 +27,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.android.keyguard.KeyguardUpdateMonitor
 import com.android.settingslib.Utils
 import com.android.settingslib.drawable.UserIconDrawable
 import com.android.systemui.R
@@ -50,6 +52,12 @@ class FooterActionsView(context: Context?, attrs: AttributeSet?) : LinearLayout(
 
     private var qsDisabled = false
     private var expansionAmount = 0f
+
+    private var showSettingsIcon: Boolean
+    private var showServicesIcon: Boolean
+    private var showEditIcon: Boolean
+    private var showUserIcon: Boolean
+
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -119,7 +127,7 @@ class FooterActionsView(context: Context?, attrs: AttributeSet?) : LinearLayout(
         val disabled = state2 and StatusBarManager.DISABLE2_QUICK_SETTINGS != 0
         if (disabled == qsDisabled) return
         qsDisabled = disabled
-        updateEverything(isTunerEnabled, multiUserEnabled)
+        updateEverything(false, multiUserEnabled)
     }
 
     fun updateEverything(
@@ -127,7 +135,7 @@ class FooterActionsView(context: Context?, attrs: AttributeSet?) : LinearLayout(
         multiUserEnabled: Boolean
     ) {
         post {
-            updateVisibilities(isTunerEnabled, multiUserEnabled)
+            updateVisibilities(false, multiUserEnabled)
             updateClickabilities()
             isClickable = false
         }
@@ -140,16 +148,30 @@ class FooterActionsView(context: Context?, attrs: AttributeSet?) : LinearLayout(
         runningServicesButton.isClickable = runningServicesButton.visibility == VISIBLE
     }
 
+    fun updateFooterVisibilities() {
+        val resolver: ContentResolver = mContext.getContentResolver()
+        showSettingsIcon = Settings.Secure.getIntForUser(resolver,
+                  Settings.Secure.QS_FOOTER_SHOW_SETTINGS, 1, KeyguardUpdateMonitor.getCurrentUser()) != 0
+        showServicesIcon = Settings.Secure.getIntForUser(resolver,
+                  Settings.Secure.QS_FOOTER_SHOW_SERVICES, 0, KeyguardUpdateMonitor.getCurrentUser()) != 0
+        showEditIcon = Settings.Secure.getIntForUser(resolver,
+                  Settings.Secure.QS_FOOTER_SHOW_EDIT, 1, KeyguardUpdateMonitor.getCurrentUser()) != 0
+        showUserIcon = Settings.Secure.getIntForUser(resolver,
+                  Settings.Secure.QS_FOOTER_SHOW_USER, 1, KeyguardUpdateMonitor.getCurrentUser()) != 0
+        updateEverything(false, true)
+    }
+
     private fun updateVisibilities(
         isTunerEnabled: Boolean,
         multiUserEnabled: Boolean
     ) {
-        settingsContainer.visibility = if (qsDisabled) GONE else VISIBLE
+        settingsContainer.visibility = if (qsDisabled || !showSettingsIcon) GONE else VISIBLE
         tunerIcon.visibility = if (isTunerEnabled) VISIBLE else INVISIBLE
-        multiUserSwitch.visibility = if (multiUserEnabled) VISIBLE else GONE
+        multiUserSwitch.visibility = if (multiUserEnabled && showUserIcon) VISIBLE else GONE
         val isDemo = UserManager.isDeviceInDemoMode(context)
-        settingsButton.visibility = if (isDemo) INVISIBLE else VISIBLE
-        runningServicesButton.visibility = if (isDemo) INVISIBLE else VISIBLE
+        settingsButton.visibility = if (isDemo || !showSettingsIcon) GONE else VISIBLE
+        runningServicesButton.visibility = if (isDemo || !showServicesIcon) GONE else VISIBLE
+        editTilesButton.visibility = if (isDemo || !showEditIcon) GONE else VISIBLE
     }
 
     fun onUserInfoChanged(picture: Drawable?, isGuestUser: Boolean) {
